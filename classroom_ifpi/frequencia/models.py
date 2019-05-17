@@ -1,8 +1,8 @@
 from django.db import models
 
 # Create your models here.
-from classroom_ifpi.comum.models import Turma, MatriculaDisciplinar
-from classroom_ifpi.horarios.models import Horario
+from comum.models import Turma, MatriculaDisciplinar
+from horarios.models import Horario
 
 
 class Frequencia(models.Model):

@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from classroom_ifpi.comum.models import Turma
+from comum.models import Turma
 
 
 class Horario(models.Model):
