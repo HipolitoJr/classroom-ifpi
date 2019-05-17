@@ -18,6 +18,9 @@ class Curso(models.Model):
   def __str__(self):
      return self.descricao
 
+   def __str__(self):
+      return self.descricao
+
 
 class Professor(models.Model):
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
    'horarios',
    'rest_framework',
    'rest_framework.authtoken',
+
 ]
 
 REST_FRAMEWORK = {
