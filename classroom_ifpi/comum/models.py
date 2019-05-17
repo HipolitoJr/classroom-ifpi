@@ -7,6 +7,9 @@ class Curso(models.Model):
    descricao = models.CharField(max_length=100,  null=False, blank=False)
    tipo = models.CharField(max_length=100)
 
+   def __str__(self):
+      return self.descricao
+
 
 class Professor(models.Model):
 
