@@ -38,7 +38,8 @@ class Aluno(models.Model):
   usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='aluno')
   cpf = models.CharField(max_length=14, null=False, blank=False)
   curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name= 'aluno')
-
+  def __str__(self):
+      return self.usuario.username
 
 class Turma(models.Model):
   ministrante = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name= 'turma')

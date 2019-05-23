@@ -23,6 +23,10 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'aluno', AlunoView, base_name="alunos")
 router.register(r'professor', ProfessorView, base_name="professores")
+router.register(r'disciplina', DisciplinaView, base_name="disciplinas")
+router.register(r'curso', CursoView, base_name="cursos")
+router.register(r'turma', TurmaView, base_name="turmas")
+router.register(r'matriculaDisciplinar', MatriculaDisciplinarView, base_name="matriculaDisciplinares")
 
 
 
