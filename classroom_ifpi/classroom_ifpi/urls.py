@@ -20,6 +20,9 @@ from frequencia.views import *
 from horarios.views import *
 from rest_framework import routers
 from comum import views as comum_views
+from horarios import views as horario_views
+from frequencia import views as frequencia_views
+
 
 # router = routers.DefaultRouter()
 # router.register(r'aluno', AlunoDetail, base_name="alunos")
@@ -51,6 +54,14 @@ urlpatterns = [
     path('api/turmas/<int:pk>', comum_views.TurmaDetail.as_view(), name=comum_views.TurmaDetail.name),
     path('api/turmas/', comum_views.TurmaList.as_view(), name=comum_views.TurmaList.name),
     path('api/matriculas/<int:pk>', comum_views.MatriculaDisciplinarDetail.as_view(), name=comum_views.MatriculaDisciplinarDetail.name),
-    path('api/matriculas/', comum_views.MatriculaDisciplinarList.as_view(), name=comum_views.MatriculaDisciplinarList.name)
+    path('api/matriculas/', comum_views.MatriculaDisciplinarList.as_view(), name=comum_views.MatriculaDisciplinarList.name),
+    path('api/horarios/<int:pk>', horario_views.HorarioDetail.as_view(), name=horario_views.HorarioDetail.name),
+    path('api/horarios/', horario_views.HorarioList.as_view(), name = horario_views.HorarioList.name),
+    path('api/ausencias/<int:pk>', horario_views.AusenciaDetail.as_view(), name=horario_views.AusenciaDetail.name),
+    path('api/ausencias/', horario_views.AusenciaList.as_view(), name = horario_views.AusenciaList.name),
+    path('api/frequencias/<int:pk>', frequencia_views.FrequenciaDetail.as_view(), name=frequencia_views.FrequenciaDetail.name),
+    path('api/frequencias/', frequencia_views.FrequenciaList.as_view(), name = frequencia_views.FrequenciaList.name),
+    path('api/registros/<int:pk>', frequencia_views.RegistroDetail.as_view(), name=frequencia_views.RegistroDetail.name),
+    path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name)
 
 ]

@@ -20,7 +20,7 @@ class Horario(models.Model):
     turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='horario')
 
 
-class Ausencia():
+class Ausencia(models.Model):
 
     justificativa = models.CharField(max_length=255, null=False, blank=False)
     professor = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name='ausencia')

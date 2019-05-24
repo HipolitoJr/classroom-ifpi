@@ -4,6 +4,8 @@ from rest_framework.reverse import reverse
 from rest_framework import viewsets, generics, authentication, permissions
 from .serializers import *
 from .models import *
+from horarios import views as horario_views
+from frequencia import views as frequencia_views
 
 
 class ApiRoot(generics.GenericAPIView):
@@ -16,7 +18,11 @@ class ApiRoot(generics.GenericAPIView):
 			'disciplinas': reverse(DisciplinaList.name, request=request),
 			'cursos': reverse(CursoList.name, request=request),
 			'turmas': reverse(TurmaList.name, request=request),
-			'matriculas': reverse(MatriculaDisciplinarList.name, request=request)
+			'matriculas': reverse(MatriculaDisciplinarList.name, request=request),
+			'horarios': reverse(horario_views.HorarioList.name, request=request),
+			'ausencias': reverse(horario_views.AusenciaList.name, request=request),
+			'registros': reverse(frequencia_views.RegistroList.name, request=request),
+			'frequencias': reverse(frequencia_views.FrequenciaList.name, request=request)
 		})
 
 
