@@ -3,6 +3,12 @@ from .models import *
 from django.contrib.auth.models import User
 from django.db import transaction
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username','password','first_name', 'last_name')
+
+
 class AlunoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aluno
