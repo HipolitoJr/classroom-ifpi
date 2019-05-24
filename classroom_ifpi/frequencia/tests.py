@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from model_mommy import mommy
-from comum.models import Disciplina, Professor, Curso, Turma
+from comum.models import Disciplina, Professor, Curso, Turma, Aluno, MatriculaDisciplinar
 from django.utils.timezone import datetime
 
-from frequencia.models import Frequencia
+from frequencia.models import Frequencia, Registro
 from horarios.models import Horario
 
 
@@ -15,12 +15,47 @@ class TesteFrequencia(TestCase):
                                username='teste', first_name='Teste', last_name='UserMINISTRANTE',
                                email='teste@teste.com',
                                is_staff=True, is_active=True, date_joined=datetime.now())
-        self.professor = mommy.make(Professor, usuario=self.user, matricula='TST2019', cpf='123.456.789-09')
+        self.professor = mommy.make(Professor, usuario=self.user, matricula='TST2019',
+                                    cpf='123.456.789-09')
         self.disciplina = mommy.make(Disciplina, descricao='DISCIPLINA TESTE TURMA')
         self.curso = mommy.make(Curso, descricao='CURSO DE TESTES EM PYTHON TURMA', tipo='TN')
-        self.turma = mommy.make(Turma, cargaHoraria=70, ministrante=self.professor, curso=self.curso,
+        self.turma = mommy.make(Turma, especificacao_disciplina = 'Materia teste I',
+                                carga_horaria=70, ministrante=self.professor, curso=self.curso,
                                 disciplina=self.disciplina)
+        self.horario = mommy.make(Horario, dia_semana='SEGUNDA', hora_inicio=datetime.now(), hora_fim=datetime.now(), turma=self.turma)
+        self.frequencia = mommy.make(Frequencia, data = datetime.now(),disciplina = self.turma,
+                                     horario = self.horario)
 
-        self.horario = mommy.make(Horario, diaSemana='SEGUNDA', horaInicio=datetime.now(), dataFim=datetime.now(),
-                                  turma=self.turma)
-        self.frequencia = mommy.make(Frequencia, data = datetime.now(),disciplina = self.disciplina, horario = self.horario)
+    def teste_frequencia_creation(self):
+        self.assertTrue(isinstance(self.frequencia, Frequencia))
+
+
+class TesteRegistro(TestCase):
+
+    def setUp(self):
+        self.user = mommy.make(User, password='abcd1234', last_login=datetime.now(), is_superuser=False,
+                               username='teste', first_name='Teste', last_name='UserALUNO', email='teste@teste.com',
+                               is_staff=True, is_active=True, date_joined=datetime.now())
+        self.curso = mommy.make(Curso, descricao='CURSO DE TESTES EM PYTHON aluno', tipo='TN')
+        self.aluno = mommy.make(Aluno, curso=self.curso, usuario=self.user,
+                                matricula_curso='TSTA2019', cpf='123.456.789-09')
+        self.disciplina = mommy.make(Disciplina, descricao='DISCIPLINA TESTE')
+
+        self.professor = mommy.make(Professor, usuario=self.user, matricula='TST2019', cpf='123.456.789-09')
+        self.turma = mommy.make(Turma, especificacao_disciplina='Materia teste I', carga_horaria=70,
+                                ministrante=self.professor, curso=self.curso,
+                                disciplina=self.disciplina)
+        self.matricula_disciplinar = mommy.make(MatriculaDisciplinar, aluno=self.aluno,
+                                                disciplina=self.turma, situacao='C')
+
+        self.horario = mommy.make(Horario, dia_semana='SEGUNDA', hora_inicio=datetime.now(),
+                                  hora_fim=datetime.now(), turma=self.turma)
+        self.frequencia = mommy.make(Frequencia, data=datetime.now(), disciplina=self.turma,
+                                     horario=self.horario)
+
+        self.registro = mommy.make(Registro, status = True, aluno = self.matricula_disciplinar,
+                                   frequencia = self.frequencia, peso = 1)
+
+    def teste_registro_creation(self):
+        self.assertTrue(isinstance(self.registro, Registro))
+

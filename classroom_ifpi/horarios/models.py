@@ -15,7 +15,7 @@ class Horario(models.Model):
     )
 
     dia_semana = models.CharField(max_length=7, choices=DIA_SEMANA_CHOICES, null=False, blank=False )
-    horario_inicio = models.TimeField()
+    hora_inicio = models.TimeField()
     hora_fim = models.TimeField()
     turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='horario')
 
