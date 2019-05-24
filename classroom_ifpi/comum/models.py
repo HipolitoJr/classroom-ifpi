@@ -18,8 +18,6 @@ class Curso(models.Model):
   def __str__(self):
      return self.descricao
 
-   def __str__(self):
-      return self.descricao
 
 
 class Professor(models.Model):
@@ -28,25 +26,39 @@ class Professor(models.Model):
   usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='professor')
   cpf = models.CharField(max_length=14, null=False, blank=False)
 
+  def __str__(self):
+      return self.usuario.first_name + self.usuario.last_name
+
 
 class Disciplina(models.Model):
 
   descricao = models.CharField(max_length=100)
+  ministrantes = models.ManyToManyField(Professor, through='Turma')
+
+  def __str__(self):
+     return self.descricao
 
 
 class Aluno(models.Model):
 
-  matriculaCurso = models.CharField(max_length=12, null=False, blank=False)
+  matricula_curso = models.CharField(max_length=12, null=False, blank=False)
   usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='aluno')
   cpf = models.CharField(max_length=14, null=False, blank=False)
   curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name= 'aluno')
 
+  def __str__(self):
+      return self.usuario.first_name + self.usuario.last_name
 
 class Turma(models.Model):
   ministrante = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name= 'turma')
+  especificacao_disciplina = models.CharField(max_length=100, null=False, blank=False)
   disciplina = models.ForeignKey(Disciplina, null=False, blank=False, on_delete=models.CASCADE, related_name= 'turma')
-  cargaHoraria = models.IntegerField()
+  carga_horaria = models.IntegerField()
   curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
+  alunos = models.ManyToManyField(Aluno, through='MatriculaDisciplinar')
+
+  def __str__(self):
+     return self.especificacao_disciplina
 
 
 class MatriculaDisciplinar(models.Model):
@@ -57,6 +69,7 @@ class MatriculaDisciplinar(models.Model):
       ('C', 'Cursando'),
   )
 
-  aluno = models.ForeignKey(Aluno, null=False, blank=False, on_delete=models.CASCADE, related_name='matriculaDisciplinar')
-  disciplina = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='matriculaDisciplinar')
+  matricula = models.CharField(max_length=15, null=False, blank=False)
+  aluno = models.ForeignKey(Aluno, null=False, blank=False, on_delete=models.CASCADE, related_name='matricula_disciplinar')
+  disciplina = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='matricula_disciplinar')
   situacao = models.CharField(max_length=1, choices=SITUACAO_CHOICES, null=False, blank=False , default='C')

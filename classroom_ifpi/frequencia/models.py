@@ -10,6 +10,7 @@ class Frequencia(models.Model):
     data = models.DateField()
     disciplina = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='frequencia')
     horario = models.ForeignKey(Horario, null=False, blank=False, on_delete=models.CASCADE, related_name='frequencia')
+    registros = models.ManyToManyField(MatriculaDisciplinar, through='Registro')
 
 
 class Registro(models.Model):
