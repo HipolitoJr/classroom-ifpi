@@ -43,7 +43,7 @@ INSTALLED_APPS = [
    'horarios',
    'rest_framework',
    'rest_framework.authtoken',
-
+    'django_qr_creator',
 ]
 
 REST_FRAMEWORK = {
