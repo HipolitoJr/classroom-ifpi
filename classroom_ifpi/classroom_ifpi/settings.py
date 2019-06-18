@@ -90,9 +90,9 @@ WSGI_APPLICATION = 'classroom_ifpi.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'postgres',
-       'USER': 'admin',
-       'PASSWORD': 'admin',
+       'NAME': 'classroomdb',
+       'USER': 'postgres',
+       'PASSWORD': 'postgres',
        'HOST': '127.0.0.1',
        'PORT': '5432',
   }
