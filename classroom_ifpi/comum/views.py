@@ -19,8 +19,10 @@ class ApiRoot(generics.GenericAPIView):
 			'cursos': reverse(CursoList.name, request=request),
 			'turmas': reverse(TurmaList.name, request=request),
 			'matriculas': reverse(MatriculaDisciplinarList.name, request=request),
-			'horarios': reverse(horario_views.HorarioList.name, request=request),
-			'ausencias': reverse(horario_views.AusenciaList.name, request=request),
+			'horarios': reverse(HorarioList.name, request=request),
+			'declaracoes_ausencias': reverse(horario_views.DeclaracaoAusenciaList.name, request=request),
+			'ausencias_interesses': reverse(horario_views.AusenciaInteresseList.name, request=request),
+			'declaracoes_interesses': reverse(horario_views.DeclaracaoInteresseList.name, request=request),
 			'registros': reverse(frequencia_views.RegistroList.name, request=request),
 			'frequencias': reverse(frequencia_views.FrequenciaList.name, request=request)
 		})
@@ -112,3 +114,16 @@ class MatriculaDisciplinarList(generics.ListCreateAPIView):
 	queryset = MatriculaDisciplinar.objects.all() 
 	serializer_class = MatriculaDisciplinarSerializer 
 	name = 'matricula-disciplinar-list'
+
+
+class HorarioDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Horario.objects.all()
+	serializer_class = HorarioSerializer
+	name = 'horario-detail'
+
+
+class HorarioList(generics.ListCreateAPIView):
+    queryset = Horario.objects.all()
+    serializer_class = HorarioSerializer
+    serializer_detail_class = HorarioSerializer
+    name = 'horario-list'
