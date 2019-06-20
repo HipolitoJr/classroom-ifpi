@@ -22,6 +22,7 @@ from rest_framework import routers
 from comum import views as comum_views
 from horarios import views as horario_views
 from frequencia import views as frequencia_views
+from qr_code import views
 
 
 # router = routers.DefaultRouter()
@@ -36,6 +37,7 @@ from frequencia import views as frequencia_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('qr/', include('qr_code.urls')),
     # path('', include(router.urls)),
 
     #URLs API
