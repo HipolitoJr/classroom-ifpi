@@ -1,14 +1,23 @@
 # Create your views here.
-import qrcode
-from django.shortcuts import render
-from django_qr_creator import Image
+from django.shortcuts import render, render_to_response, redirect
+from django.utils import timezone
 
 
-# def index(request):
-#     link = [url='www.google.com']
-#     return render(request, 'qr_code/qr_code.html', {'link': tuple(link)})
-
-
-def index(request):
-    link = "www.steampowered.com/dkufgiuyyyYY626537656fFfffhgftbOOBBOgfsSs"
+def home(request):
+    link = "http://192.168.1.6:8000/qr/registered"
     return render(request, 'qr_code/qr_code.html', {'link': link})
+
+
+def register(request):
+    aluno = ''
+    response = render_to_response('qr_code/qr_code_register.html', {'aluno': aluno})
+    response.set_cookie('aluno', aluno)
+    return response
+
+
+def registered(request):
+    if 'aluno' in request.COOKIES:
+        aluno = request.COOKIES['aluno']
+    else:
+        return redirect('register')
+    return render(request, 'qr_code/qr_code_registered.html', {})

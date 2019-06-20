@@ -25,7 +25,9 @@ SECRET_KEY = 's830u)*7%96%(!82nlpnd&afs$fm-g*gg&xppg=3*d!0s_%o6d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.1.6',
+]
 
 
 # Application definition
