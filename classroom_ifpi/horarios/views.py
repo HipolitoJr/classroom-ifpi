@@ -1,30 +1,44 @@
 from rest_framework import generics
-from horarios.models import Horario, Ausencia
-from horarios.serializers import HorarioSerializer, AusenciaSerializer
+from horarios.models import DeclaracaoAusencia, AusenciaInteresse, DeclaracaoInteresse
+from horarios.serializers import DeclaracaoAusenciaSerializer, AusenciaInteresseSerializer, DeclaracaoInteresseSerializer
+
 
 # Create your views here.
 
-class HorarioDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Horario.objects.all()
-	serializer_class = HorarioSerializer
-	name = 'horario-detail'
+class DeclaracaoAusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DeclaracaoAusencia.objects.all()
+    serializer_class = DeclaracaoAusenciaSerializer
+    serializer_detail_class = DeclaracaoAusenciaSerializer
+    name = 'declaracao_ausencia-detail'
 
 
-class HorarioList(generics.ListCreateAPIView):
-    queryset = Horario.objects.all()
-    serializer_class = HorarioSerializer
-    serializer_detail_class = HorarioSerializer
-    name = 'horario-list'
+class DeclaracaoAusenciaList(generics.ListCreateAPIView):
+    queryset = DeclaracaoAusencia.objects.all()
+    serializer_class = DeclaracaoAusenciaSerializer
+    name = 'declaracao_ausencia-list'
 
 
-class AusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Ausencia.objects.all()
-	serializer_class = AusenciaSerializer
-	name = 'ausencia-detail'
+class AusenciaInteresseDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AusenciaInteresse.objects.all()
+    serializer_class = AusenciaInteresseSerializer
+    serializer_detail_class = AusenciaInteresseSerializer
+    name = 'ausencia_interesse-detail'
 
 
-class AusenciaList(generics.ListCreateAPIView):
-    queryset = Ausencia.objects.all()
-    serializer_class = AusenciaSerializer
-    serializer_detail_class = AusenciaSerializer
-    name = 'ausencia-list'
+class AusenciaInteresseList(generics.ListCreateAPIView):
+    queryset = AusenciaInteresse.objects.all()
+    serializer_class = AusenciaInteresseSerializer
+    name = 'ausencia_interesse-list'
+
+
+class DeclaracaoInteresseDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DeclaracaoInteresse.objects.all()
+    serializer_class = DeclaracaoInteresseSerializer
+    serializer_detail_class = DeclaracaoInteresseSerializer
+    name = 'declaracao_interesse-detail'
+
+
+class DeclaracaoInteresseList(generics.ListCreateAPIView):
+    queryset = DeclaracaoInteresse.objects.all()
+    serializer_class = DeclaracaoInteresseSerializer
+    name = 'declaracao_interesse-list'
