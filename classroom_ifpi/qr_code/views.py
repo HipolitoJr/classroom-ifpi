@@ -8,6 +8,13 @@ def home(request):
     return render(request, 'qr_code/qr_code.html', {'link': link})
 
 
+# def register(request):
+#     aluno = ''
+#     response = render_to_response('qr_code/qr_code_register.html', {'aluno': aluno})
+#     response.set_cookie('aluno', aluno)
+#     return response
+
+
 def register(request):
     aluno = ''
     response = render_to_response('qr_code/qr_code_register.html', {'aluno': aluno})
