@@ -10,6 +10,7 @@ from frequencia import views as frequencia_views
 
 class ApiRoot(generics.GenericAPIView):
 	name = 'api-root'
+
 	def get(self,request, *args, **kwargs):
 		return Response({
 			'usuarios': reverse(UserList.name,request=request),
@@ -52,11 +53,12 @@ class AlunoList(generics.ListCreateAPIView):
 	serializer_class = AlunoSerializer 
 	name = 'aluno-list'
 
+
 class ProfessorDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Professor.objects.all()
 	serializer_class = ProfessorSerializer
 	serializer_detail_class = ProfessorSerializer
-	name= 'professor-detail'
+	name = 'professor-detail'
 
 
 class ProfessorList(generics.ListCreateAPIView): 
@@ -76,6 +78,7 @@ class DisciplinaList(generics.ListCreateAPIView):
 	queryset = Disciplina.objects.all() 
 	serializer_class = DisciplinaSerializer 
 	name = 'disciplina-list'
+
 
 class CursoDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Curso.objects.all()
