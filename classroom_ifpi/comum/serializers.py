@@ -16,17 +16,20 @@ class AlunoSerializer(serializers.ModelSerializer):
         curso = serializers.SlugRelatedField(queryset=Curso.objects.all(), slug_field='disciplina')
         fields = ('matricula_curso','usuario','cpf','curso')
 
+
 class ProfessorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor
         usuario = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
         fields = ('matricula', 'cpf', 'usuario')
 
+
 class DisciplinaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Disciplina
         ministrantes = serializers.SlugRelatedField(queryset=Professor.objects.all(), many=True, slug_field='usuario.username')
         fields = ('descricao','ministrantes')
+
 
 class TurmaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,6 +40,7 @@ class TurmaSerializer(serializers.ModelSerializer):
         alunos = serializers.SlugRelatedField(queryset=MatriculaDisciplinar.objects.all(), slug_field='username')
         fields = ( 'especificacao_disciplina','carga_horaria','ministrante','disciplina', 'curso')
 
+
 class MatriculaDisciplinarSerializer(serializers.ModelSerializer):
     class Meta:
         model = MatriculaDisciplinar
@@ -44,7 +48,14 @@ class MatriculaDisciplinarSerializer(serializers.ModelSerializer):
         disciplina = serializers.SlugRelatedField(queryset=Disciplina.objects.all(), slug_field='descricao')
         fields = ('__all__')
 
+
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso
+        fields = ('__all__')
+
+
+class HorarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Horario
         fields = ('__all__')

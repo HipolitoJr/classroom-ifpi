@@ -2,13 +2,18 @@ from rest_framework import serializers
 from .models import *
 
 
-class HorarioSerializer(serializers.ModelSerializer):
+class DeclaracaoAusenciaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Horario
+        model = DeclaracaoAusencia
+        fields = ('__all__')
+
+class AusenciaInteresseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AusenciaInteresse
         fields = ('__all__')
 
 
-class AusenciaSerializer(serializers.ModelSerializer):
+class DeclaracaoInteresseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ausencia
+        model = DeclaracaoInteresse
         fields = ('__all__')

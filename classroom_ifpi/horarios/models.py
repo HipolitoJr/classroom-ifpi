@@ -1,28 +1,29 @@
 from django.db import models
 
 # Create your models here.
-from comum.models import Turma, Professor
+from comum.models import Turma, Professor, Horario
 
 
-class Horario(models.Model):
-
-    DIA_SEMANA_CHOICES = (
-        ('SEGUNDA', 'Segunda Feira'),
-        ('TERCA', 'Terça Feira'),
-        ('QUARTA', 'Quarta Feira'),
-        ('QUINTA', 'Quinta Feira'),
-        ('SEXTA', 'Sexta Feira'),
-    )
-
-    dia_semana = models.CharField(max_length=7, choices=DIA_SEMANA_CHOICES, null=False, blank=False )
-    hora_inicio = models.TimeField()
-    hora_fim = models.TimeField()
-    turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='horario')
-
-
-class Ausencia(models.Model):
+class DeclaracaoAusencia(models.Model):
 
     justificativa = models.CharField(max_length=255, null=False, blank=False)
-    professor = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name='ausencia')
-    turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='ausencia')
-    horario = models.ForeignKey(Horario, null= False, blank=False, on_delete=models.CASCADE, related_name='ausencia')
+    professor = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
+    turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
+    horario = models.ForeignKey(Horario, null= False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
+    data_falta = models.DateField()
+    data_declaracao = models.DateField()
+
+
+class DeclaracaoInteresse(models.Model):
+    declarador = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE,
+                                   related_name='declaracao_interessse')
+    data_declaracao = models.DateField()
+
+
+class AusenciaInteresse(models.Model):
+
+    ausencia = models.ForeignKey(DeclaracaoAusencia, null=False, blank=False, on_delete=models.CASCADE, related_name='ausencia_interesse')
+    hora_inicio = models.TimeField()
+    hora_fim = models.TimeField()
+    status = models.BooleanField()
+    interessado = models.ForeignKey(DeclaracaoInteresse,  null=False, blank=False, on_delete=models.CASCADE, related_name='ausencia_interesse')
