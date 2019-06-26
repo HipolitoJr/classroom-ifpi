@@ -26,8 +26,6 @@ SECRET_KEY = 's830u)*7%96%(!82nlpnd&afs$fm-g*gg&xppg=3*d!0s_%o6d'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-
-
 ]
 
 
@@ -46,8 +44,8 @@ INSTALLED_APPS = [
    'horarios',
    'rest_framework',
    'rest_framework.authtoken',
-    'django_qr_creator',
-    'qr_code',
+   'django_qr_creator',
+   'qr_code',
 ]
 
 REST_FRAMEWORK = {
@@ -93,7 +91,7 @@ WSGI_APPLICATION = 'classroom_ifpi.wsgi.application'
 
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
        'NAME': 'classroomdb',
        'USER': 'postgres',
        'PASSWORD': 'postgres',
