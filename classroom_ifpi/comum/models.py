@@ -42,7 +42,7 @@ class Aluno(models.Model):
     curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='aluno')
 
     def __str__(self):
-        return self.usuario.first_name + self.usuario.last_name
+        return self.usuario.first_name+" "+self.usuario.last_name
 
 
 class Turma(models.Model):
@@ -86,3 +86,6 @@ class Horario(models.Model):
     hora_inicio = models.TimeField()
     hora_fim = models.TimeField()
     turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='horario')
+
+    def __str__(self):
+        return self.turma.ministrante.usuario.first_name + " - " + self.dia_semana
