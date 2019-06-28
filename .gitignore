@@ -106,3 +106,6 @@ venv.bak/
 
 # intellij .idea
 .idea
+/classroom_ifpi/comum/migrations
+/classroom_ifpi/frequencia/migrations
+/classroom_ifpi/horarios/migrations

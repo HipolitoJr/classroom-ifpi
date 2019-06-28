@@ -1,7 +1,9 @@
 # Create your views here.
 from django.shortcuts import render, render_to_response, redirect
 from django.utils import timezone
-from comum.models import Aluno
+from comum.models import Aluno as C_aluno
+from frequencia.models import Frequencia
+from .models import Aluno
 
 def home(request):
     link = "http://192.168.43.174:8000/qr/registered"
@@ -10,8 +12,8 @@ def home(request):
 
 def register(request):
     aluno = ''
-    alunos = Aluno.objects.all()
-    response = render_to_response('qr_code/qr_code_register.html', context={'alunos': alunos})
+    alunos = C_aluno.objects.filter()
+    response = render_to_response('qr_code/qr_code_register.html', {'alunos': alunos})
     response.set_cookie('aluno', aluno)
     return response
 
