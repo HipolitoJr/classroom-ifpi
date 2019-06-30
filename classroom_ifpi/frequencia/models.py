@@ -2,15 +2,16 @@ from django.db import models
 
 # Create your models here.
 from comum.models import Turma, MatriculaDisciplinar
-from horarios.models import Horario
 
 
 class Frequencia(models.Model):
 
     data = models.DateField()
     disciplina = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='frequencia')
-    horario = models.ForeignKey(Horario, null=False, blank=False, on_delete=models.CASCADE, related_name='frequencia')
+    # horario = models.ForeignKey(Horario, null=False, blank=False, on_delete=models.CASCADE, related_name='frequencia')
     registros = models.ManyToManyField(MatriculaDisciplinar, through='Registro')
+    hora_inicio = models.TimeField()
+    hora_fim = models.TimeField()
 
 
 class Registro(models.Model):
