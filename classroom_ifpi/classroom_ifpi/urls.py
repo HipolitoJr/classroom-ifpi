@@ -59,7 +59,7 @@ urlpatterns = [
     path('api/matriculas/', comum_views.MatriculaDisciplinarList.as_view(), name=comum_views.MatriculaDisciplinarList.name),
     path('api/horarios/<int:pk>', comum_views.HorarioDetail.as_view(), name=comum_views.HorarioDetail.name),
     path('api/horarios/', comum_views.HorarioList.as_view(), name = comum_views.HorarioList.name),
-    path('api/declaracoes-ausencias/<int:pk>', horario_views.DeclaracaoAusenciaDetail, name=horario_views.DeclaracaoAusenciaDetail.name),
+    path('api/declaracoes-ausencias/<int:pk>/', horario_views.DeclaracaoAusenciaDetail.as_view(), name=horario_views.DeclaracaoAusenciaDetail.name),
     path('api/declaracoes-ausencias/', horario_views.DeclaracaoAusenciaList.as_view(), name = horario_views.DeclaracaoAusenciaList.name),
     path('api/declaracoes-interesses/<int:pk>', horario_views.DeclaracaoInteresseDetail.as_view(), name=horario_views.DeclaracaoInteresseDetail.name),
     path('api/declaracoes-interesses/', horario_views.DeclaracaoInteresseList.as_view(), name=horario_views.DeclaracaoInteresseList.name),
@@ -68,6 +68,5 @@ urlpatterns = [
     path('api/frequencias/<int:pk>', frequencia_views.FrequenciaDetail.as_view(), name=frequencia_views.FrequenciaDetail.name),
     path('api/frequencias/', frequencia_views.FrequenciaList.as_view(), name = frequencia_views.FrequenciaList.name),
     path('api/registros/<int:pk>', frequencia_views.RegistroDetail.as_view(), name=frequencia_views.RegistroDetail.name),
-    path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name)
-
+    path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
 ]

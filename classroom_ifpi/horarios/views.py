@@ -1,7 +1,7 @@
 from rest_framework import generics
 from horarios.models import DeclaracaoAusencia, AusenciaInteresse, DeclaracaoInteresse
-from horarios.serializers import DeclaracaoAusenciaSerializer, AusenciaInteresseSerializer, DeclaracaoInteresseSerializer
-
+from horarios.serializers import *
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -13,7 +13,15 @@ class DeclaracaoAusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DeclaracaoAusenciaList(generics.ListCreateAPIView):
-    queryset = DeclaracaoAusencia.objects.all()
+    #queryset = DeclaracaoAusencia.objects.all()
+    
+    def get_queryset(self):
+        username = self.request.query_params.get('username', None)
+        if username is None:
+            queryset = DeclaracaoAusencia.objects.all()
+        else:
+            pass
+        return queryset
     serializer_class = DeclaracaoAusenciaSerializer
     name = 'declaracao_ausencia-list'
 
