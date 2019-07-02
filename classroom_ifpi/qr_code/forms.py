@@ -1,10 +1,7 @@
 from django import forms
 
-from .models import Aluno
+from comum.models import MatriculaDisciplinar
 
 
-class AlunoForm(forms.ModelForm):
-
-    class Meta:
-        model = Aluno
-        fields = ('nome',)
+class MatriculaDisciplinarForm(forms.Form):
+    pass

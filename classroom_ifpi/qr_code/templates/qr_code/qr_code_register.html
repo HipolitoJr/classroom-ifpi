@@ -7,10 +7,22 @@
 </head>
 <body>
     <h1>Diga-nos quem é você:</h1>
-    <ul>
-        {% for aluno in alunos %}
-        <li>{{ aluno}}</li>
+    <form method="POST" class="post-form">{% csrf_token %}
+    <select>
+        {% for matricula in matriculas %}
+        <option>{{ matricula.aluno }}</option>
         {% endfor %}
-    </ul>
+    </select>
+    <button type="submit" class="save btn btn-success">OK</button>
+    </form>
+{#    <ul>#}
+{#        {% for matricula in matriculas %}#}
+{#        <li>{{ matricula.aluno }}</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#    <form method="POST" class="post-form">{% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <button type="submit" class="save btn btn-default">OK</button>#}
+{#    </form>#}
 </body>
 </html>

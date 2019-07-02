@@ -3,6 +3,8 @@ import datetime
 
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Aluno, Horario, Turma, MatriculaDisciplinar
+from qr_code.forms import MatriculaDisciplinarForm
+
 
 def home(request):
     link = "http://192.168.43.174:8000/qr/registered"
@@ -10,23 +12,28 @@ def home(request):
 
 
 def register(request):
-    DIAS= (
-        ('SEGUNDA'),
-        ('TERCA' ),
-        ('QUARTA'),
-        ('QUINTA'),
-        ('SEXTA'),
-        ('SABADO'),
-        ('DOMINGO'),
+    form = MatriculaDisciplinarForm()
+    aluno = ''
+    DIAS = (
+        'SEGUNDA',
+        'TERCA',
+        'QUARTA',
+        'QUINTA',
+        'SEXTA',
+        'SABADO',
+        'DOMINGO',
     )
     hoje = datetime.date.today()
     hoje_dia = hoje.weekday()
     hoje_dia_semana = DIAS[hoje_dia]
-    aluno = ''
-    horarios = Horario.objects.filter(dia_semana=hoje_dia_semana, hora_inicio__lte=datetime.datetime.now().time(),
-                                      hora_fim__gte=datetime.datetime.now().time())
-    alunos = Aluno.objects.all()
-    response = render_to_response('qr_code/qr_code_register.html', {'alunos': alunos})
+    horario_atual = Horario.objects.filter(dia_semana=hoje_dia_semana, hora_inicio__lte=datetime.datetime.now().time(),
+                                           hora_fim__gte=datetime.datetime.now().time())
+    horario_a = horario_atual[0].id
+    turma = Turma.objects.filter(horario=horario_a)
+    turmaDiscId = turma[0].disciplina_id
+    matriculas = MatriculaDisciplinar.objects.filter(disciplina=turmaDiscId)
+    response = render_to_response('qr_code/qr_code_register.html', {'matriculas': matriculas})
+    # response = render_to_response('qr_code/qr_code_register.html', {'form': form})
     response.set_cookie('aluno', aluno)
     return response
 
