@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load staticfiles %}
-<head>
-    <meta charset="UTF-8">
-    <title>Frequência</title>
-</head>
-<body>
-    <h1>Diga-nos quem é você:</h1>
+{% extends 'qr_code/base.html' %}
+{% block content %}
+    <h3>Diga-nos quem é você:</h3>
     <form action="{% url 'register' %}" method="POST" class="post-form">
     {% csrf_token %}
     <select name="aluno_r">
@@ -16,5 +10,4 @@
     </select>
     <button type="submit" class="save btn btn-success">OK</button>
     </form>
-</body>
-</html>
+{% endblock %}

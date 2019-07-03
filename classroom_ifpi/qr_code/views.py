@@ -2,7 +2,8 @@
 import datetime
 
 from django.shortcuts import render, render_to_response, redirect
-from comum.models import Aluno, Horario, Turma, MatriculaDisciplinar
+from comum.models import Horario, Turma, MatriculaDisciplinar
+from frequencia.models import Frequencia, Registro
 
 
 def home(request):
@@ -42,9 +43,9 @@ def register(request):
 
 
 def registered(request):
-    aluno = ''
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
+
     else:
         return redirect('getAlunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})

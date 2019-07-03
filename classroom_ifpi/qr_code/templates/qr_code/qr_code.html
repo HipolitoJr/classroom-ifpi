@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Frequência</title>
-</head>
-<body>
+{% extends 'qr_code/base.html' %}
+{% block content %}
     {% load django_qr_creator %}
-    <h1>Atencao! Registro da frequencia!</h1>
-    <h2>Aponte a camera do seu celular e capture o qr.<br>
-        Acesse o link do qr e registre.</h2>
+    <h2>Atencao! Registro da frequencia!</h2>
+    <h3>Aponte a camera do seu celular e capture o qr.<br>
+        Acesse o link do qr e registre.</h3>
         {% qr url=link %}
-</body>
-</html>
+{% endblock %}
