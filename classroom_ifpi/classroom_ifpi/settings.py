@@ -26,7 +26,7 @@ SECRET_KEY = 's830u)*7%96%(!82nlpnd&afs$fm-g*gg&xppg=3*d!0s_%o6d'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-  '192.168.1.5',
+  '192.168.1.5', '192.168.0.104',
 ]
 
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
    'django.contrib.messages',
    'django.contrib.staticfiles',
    'frequencia',
+   'django_filters',
    'comum',
    'horarios',
    'rest_framework',
@@ -53,7 +54,8 @@ REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.BasicAuthentication',
        'rest_framework.authentication.TokenAuthentication',
-   )
+   ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 MIDDLEWARE = [
@@ -90,7 +92,7 @@ WSGI_APPLICATION = 'classroom_ifpi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
        'NAME': 'classroomdb',
@@ -99,14 +101,14 @@ DATABASES = {
        'HOST': '127.0.0.1',
        'PORT': '5432',
   }
-}
-'''DATABASES = {
+}'''
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-'''
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 

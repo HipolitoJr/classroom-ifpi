@@ -1,4 +1,5 @@
 from rest_framework import generics
+from django_filters import rest_framework as filters
 from horarios.models import DeclaracaoAusencia, AusenciaInteresse, DeclaracaoInteresse
 from horarios.serializers import *
 from django.contrib.auth.models import User
@@ -9,6 +10,8 @@ class DeclaracaoAusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DeclaracaoAusencia.objects.all()
     serializer_class = DeclaracaoAusenciaSerializer
     serializer_detail_class = DeclaracaoAusenciaSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
     name = 'declaracao_ausencia-detail'
 
 

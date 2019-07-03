@@ -6,7 +6,7 @@ from .serializers import *
 from .models import *
 from horarios import views as horario_views
 from frequencia import views as frequencia_views
-
+from django_filters import rest_framework as filters
 
 class ApiRoot(generics.GenericAPIView):
 	name = 'api-root'
@@ -115,7 +115,7 @@ class MatriculaDisciplinarDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class MatriculaDisciplinarList(generics.ListCreateAPIView): 
 	queryset = MatriculaDisciplinar.objects.all() 
-	serializer_class = MatriculaDisciplinarSerializer 
+	serializer_class = MatriculaDisciplinarSerializer
 	name = 'matricula-disciplinar-list'
 
 
@@ -126,7 +126,9 @@ class HorarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class HorarioList(generics.ListCreateAPIView):
-    queryset = Horario.objects.all()
-    serializer_class = HorarioSerializer
-    serializer_detail_class = HorarioSerializer
-    name = 'horario-list'
+	queryset = Horario.objects.all()
+	serializer_class = HorarioSerializer
+	serializer_detail_class = HorarioSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = '__all__'
+	name = 'horario-list'
