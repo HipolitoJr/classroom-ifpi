@@ -11,20 +11,10 @@
     {% csrf_token %}
     <select name="aluno_r">
         {% for matricula in matriculas %}
-        <option>{{ matricula.aluno }}</option>
+            <option>{{ matricula.aluno }}</option>
         {% endfor %}
     </select>
     <button type="submit" class="save btn btn-success">OK</button>
-    <a ></a>
     </form>
-{#    <ul>#}
-{#        {% for matricula in matriculas %}#}
-{#        <li>{{ matricula.aluno }}</li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-{#    <form method="POST" class="post-form">{% csrf_token %}#}
-{#        {{ form.as_p }}#}
-{#        <button type="submit" class="save btn btn-default">OK</button>#}
-{#    </form>#}
 </body>
 </html>

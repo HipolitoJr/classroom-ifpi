@@ -36,14 +36,15 @@ def register(request):
     aluno = ''
     if request.method == "POST":
         aluno = request.POST.get("aluno_r")
-    response = render_to_response('qr_code/qr_code_registered.html', {})
+    response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
     response.set_cookie('aluno', aluno)
     return response
 
 
 def registered(request):
+    aluno = ''
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
     else:
         return redirect('getAlunos')
-    return render(request, 'qr_code/qr_code_registered.html', {})
+    return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
