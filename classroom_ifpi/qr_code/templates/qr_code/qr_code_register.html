@@ -7,13 +7,15 @@
 </head>
 <body>
     <h1>Diga-nos quem é você:</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-    <select>
+    <form action="{% url 'register' %}" method="POST" class="post-form">
+    {% csrf_token %}
+    <select name="aluno_r">
         {% for matricula in matriculas %}
         <option>{{ matricula.aluno }}</option>
         {% endfor %}
     </select>
     <button type="submit" class="save btn btn-success">OK</button>
+    <a ></a>
     </form>
 {#    <ul>#}
 {#        {% for matricula in matriculas %}#}

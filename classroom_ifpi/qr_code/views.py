@@ -3,7 +3,6 @@ import datetime
 
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Aluno, Horario, Turma, MatriculaDisciplinar
-from qr_code.forms import MatriculaDisciplinarForm
 
 
 def home(request):
@@ -11,9 +10,7 @@ def home(request):
     return render(request, 'qr_code/qr_code.html', {'link': link})
 
 
-def register(request):
-    form = MatriculaDisciplinarForm()
-    aluno = ''
+def getAlunos(request):
     DIAS = (
         'SEGUNDA',
         'TERCA',
@@ -32,8 +29,14 @@ def register(request):
     turma = Turma.objects.filter(horario=horario_a)
     turmaDiscId = turma[0].disciplina_id
     matriculas = MatriculaDisciplinar.objects.filter(disciplina=turmaDiscId)
-    response = render_to_response('qr_code/qr_code_register.html', {'matriculas': matriculas})
-    # response = render_to_response('qr_code/qr_code_register.html', {'form': form})
+    return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
+
+
+def register(request):
+    aluno = ''
+    if request.method == "POST":
+        aluno = request.POST.get("aluno_r")
+    response = render_to_response('qr_code/qr_code_registered.html', {})
     response.set_cookie('aluno', aluno)
     return response
 
@@ -42,5 +45,5 @@ def registered(request):
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
     else:
-        return redirect('register')
+        return redirect('getAlunos')
     return render(request, 'qr_code/qr_code_registered.html', {})

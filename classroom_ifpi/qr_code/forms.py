@@ -4,4 +4,6 @@ from comum.models import MatriculaDisciplinar
 
 
 class MatriculaDisciplinarForm(forms.Form):
-    pass
+    class Meta:
+        model = MatriculaDisciplinar
+        fields = ('aluno',)
