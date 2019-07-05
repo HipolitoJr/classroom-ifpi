@@ -3,15 +3,16 @@ import datetime
 
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Horario, Turma, MatriculaDisciplinar
-from frequencia.models import Frequencia, Registro
+from horarios.models import AusenciaInteresse, DeclaracaoAusencia
 
 
 def home(request):
     link = "http://192.168.43.174:8000/qr/registered"
+    # link = "http://127.0.0.1:8000/qr/registered"
     return render(request, 'qr_code/qr_code.html', {'link': link})
 
 
-def getAlunos(request):
+def get_alunos(request):
     DIAS = (
         'SEGUNDA',
         'TERCA',
@@ -24,10 +25,16 @@ def getAlunos(request):
     hoje = datetime.date.today()
     hoje_dia = hoje.weekday()
     hoje_dia_semana = DIAS[hoje_dia]
-    horario_atual = Horario.objects.filter(dia_semana=hoje_dia_semana, hora_inicio__lte=datetime.datetime.now().time(),
-                                           hora_fim__gte=datetime.datetime.now().time())
-    horario_a = horario_atual[0].id
-    turma = Turma.objects.filter(horario=horario_a)
+    horario_padrao = Horario.objects.filter(dia_semana=hoje_dia_semana,
+                                            hora_inicio__lte=datetime.datetime.now().time(),
+                                            hora_fim__gte=datetime.datetime.now().time())
+    prof_ausente = DeclaracaoAusencia.objects.filter(horario=horario_padrao[0].id)
+    prof_substituto = AusenciaInteresse.objects.filter(ausencia=prof_ausente[0].id)
+    if prof_substituto.__len__() == 1:
+        horario_atual = prof_substituto[0].id
+    else:
+        horario_atual = horario_padrao[0].id
+    turma = Turma.objects.filter(horario=horario_atual)
     turmaDiscId = turma[0].disciplina_id
     matriculas = MatriculaDisciplinar.objects.filter(disciplina=turmaDiscId)
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
@@ -47,5 +54,5 @@ def registered(request):
         aluno = request.COOKIES['aluno']
 
     else:
-        return redirect('getAlunos')
+        return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
