@@ -1,0 +1,45 @@
+html {
+    background-color: #fbffca;
+}
+
+header {
+    width: 100%;
+    background-color: black;
+}
+
+h1 {
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    color: #ffffff;
+
+}
+
+#inst{
+    width: 100%;
+    padding: 20px 20px 0 20px;
+    display: inline-block;
+}
+
+p{
+    color: #000000;
+    font-size: x-large;
+    text-align: center;
+    margin: 0 auto;
+}
+
+body {
+    width: 70%;
+    margin: 0 auto;
+    background-color: #fff8fd;
+}
+
+#cont{
+    padding: 0 20px 20px 20px;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}

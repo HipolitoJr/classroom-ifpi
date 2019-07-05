@@ -1,8 +1,16 @@
 {% extends 'qr_code/base.html' %}
 {% block content %}
     {% load django_qr_creator %}
-    <h2>Atencao! Registro da frequencia!</h2>
-    <h3>Aponte a camera do seu celular e capture o qr.<br>
-        Acesse o link do qr e registre.</h3>
-        {% qr url=link %}
+    <header>
+        <h1>Atenção! Registro da frequência!</h1>
+    </header>
+    <div id="cont">
+        <div id="inst">
+            <p>Aponte a câmera do seu celular e capture o qr.</p>
+            <p>Acesse o link do qr e registre-se.</p>
+        </div>
+        <div>
+            {% qr url=link %}
+        </div>
+    </div>
 {% endblock %}
