@@ -23,13 +23,11 @@ def get_alunos(request):
         'DOMINGO',
     )
     hoje = datetime.date.today()
-    hoje_dia = hoje.weekday()
-    hoje_dia_semana = DIAS[hoje_dia]
-    horario_padrao = Horario.objects.filter(dia_semana=hoje_dia_semana,
+    horario_padrao = Horario.objects.filter(dia_semana=DIAS[hoje.weekday()],
                                             hora_inicio__lte=datetime.datetime.now().time(),
                                             hora_fim__gte=datetime.datetime.now().time())
-    prof_ausente = DeclaracaoAusencia.objects.filter(horario=horario_padrao[0].id)
-    prof_substituto = AusenciaInteresse.objects.filter(ausencia=prof_ausente[0].id)
+    horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_padrao[0].id)
+    prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
     if prof_substituto.__len__() == 1:
         horario_atual = prof_substituto[0].id
     else:
@@ -52,7 +50,6 @@ def register(request):
 def registered(request):
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
-
     else:
         return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
