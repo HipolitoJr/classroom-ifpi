@@ -1,4 +1,6 @@
 {% extends 'qr_code/base.html' %}
+{% load static %}
 {% block content %}
-    <h2>{{ aluno }} sua presenca foi registrada com sucesso!</h2>
+    <h2 id="h2-2">{{ aluno }} sua presença foi registrada com sucesso!</h2>
+    <img id="imgConf" src="{% static 'img/conf.png' %}">
 {% endblock %}

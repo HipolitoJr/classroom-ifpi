@@ -52,11 +52,12 @@ def get_alunos(request):
                                             hora_inicio__lte=datetime.datetime.now().time(),
                                             hora_fim__gte=datetime.datetime.now().time())
     horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_padrao[0].id)
-    prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
-    if prof_substituto.__len__() == 1:
-        horario_atual = prof_substituto[0].id
-    else:
-        horario_atual = horario_padrao[0].id
+    # # prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
+    # if prof_substituto.__len__() == 1:
+    #     # horario_atual = prof_substituto[0].id
+    #     pass
+    # else:
+    horario_atual = horario_padrao[0].id
     turma = Turma.objects.filter(horario=horario_atual)
     turmaDiscId = turma[0].disciplina_id
     matriculas = MatriculaDisciplinar.objects.filter(disciplina=turmaDiscId)

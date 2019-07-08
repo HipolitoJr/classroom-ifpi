@@ -1,13 +1,16 @@
 {% extends 'qr_code/base.html' %}
 {% block content %}
-    <h3>Diga-nos quem é você:</h3>
+    <h2>Quem é você?</h2>
     <form action="{% url 'register' %}" method="POST" class="post-form">
-    {% csrf_token %}
-    <select name="aluno_r">
-        {% for matricula in matriculas %}
-            <option>{{ matricula.aluno }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit" class="save btn btn-success">OK</button>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="AlunoSelect">Selecione seu nome aqui:</label>
+            <select name="aluno_r" class="form-control" id="AlunoSelect">
+                {% for matricula in matriculas %}
+                    <option>{{ matricula.aluno }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="save btn btn-primary">OK</button>
     </form>
 {% endblock %}
