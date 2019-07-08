@@ -1,14 +1,39 @@
 # Create your views here.
 import datetime
-
+import os
+import platform
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Horario, Turma, MatriculaDisciplinar
 from horarios.models import AusenciaInteresse, DeclaracaoAusencia
 
 
+def get_net_config():
+    SO = platform.system()
+    arquivo = 'netconf.txt'
+    if SO == 'linux':
+        os.system("ifconfig > " + arquivo)
+    elif SO == 'Windows':
+        os.system("ifconfig | " + arquivo)
+    return arquivo
+
+
+def get_ip_wifi():
+    ip = ""
+    arch = get_net_config()
+    text = open(arch)
+    lines = text.readlines()
+    text.close()
+    for l in lines:
+        if "inet addr:" in l:
+            if "127.0.0.1" not in l:
+                ip = l[20:35:]
+                print(ip)
+    return ip
+
+
 def home(request):
-    link = "http://192.168.43.174:8000/qr/registered"
-    # link = "http://127.0.0.1:8000/qr/registered"
+    ip = get_ip_wifi()
+    link = "http://" + ip + ":8000/qr/registered"
     return render(request, 'qr_code/qr_code.html', {'link': link})
 
 

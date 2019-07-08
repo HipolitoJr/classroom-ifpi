@@ -109,3 +109,4 @@ venv.bak/
 /classroom_ifpi/comum/migrations
 /classroom_ifpi/frequencia/migrations
 /classroom_ifpi/horarios/migrations
+/classroom_ifpi/netconf.txt
