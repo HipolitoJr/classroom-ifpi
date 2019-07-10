@@ -5,6 +5,7 @@ import platform
 import re
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Horario, Turma, MatriculaDisciplinar
+from frequencia.models import Registro, Frequencia
 from horarios.models import AusenciaInteresse, DeclaracaoAusencia
 
 
@@ -14,22 +15,26 @@ def get_net_config():
     if SO == 'Linux':
         os.system("ifconfig > " + arch)
     elif SO == 'Windows':
-        os.system("rm " + arch)
         os.system("ifconfig | " + arch)
     return arch
 
 
 def get_ip_wifi():
     ip = "127.0.0.1"
+    os.system("rm netconf.txt")
+    arq = open("netconf.txt", 'w')
+    arq.close()
     arch = get_net_config()
     text = open(arch)
     lines = text.readlines()
     text.close()
-    for l in lines:
-        if "inet addr:" in l:
-            if "127.0.0.1" not in l:
-                ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", l)
-                ip = ips[0]
+    for l in range(len(lines)):
+        if "wlp8s0" in lines[l]:
+            lines[l] = lines[l+1]
+            if "inet addr:" in lines[l]:
+                if "127.0.0.1" not in lines[l]:
+                    ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", lines[l])
+                    ip = ips[0]
     return ip
 
 
@@ -71,8 +76,7 @@ def get_alunos(request):
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
-def register(request):
-    aluno = ''
+def ip_repetido(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip_cliente = x_forwarded_for.split(',')[0]
@@ -83,16 +87,38 @@ def register(request):
         print("Voce nao pode responder novamente a chamada")
     else:
         ip_list.append(ip_cliente)
+
+
+def registrar_presenca(matricula):
+    reg = Registro()
+    h_atual = Horario.objects.filter(id=horario_padrao())
+    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio=h_atual[0].hora_inicio,
+                                     hora_fim=h_atual[0].hora_fim)
+    reg.status = True
+    reg.frequencia = freq[0]
+    reg.aluno = MatriculaDisciplinar.objects.get(id=matricula.aluno.id)
+    reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
+    reg.save()
+
+
+def register(request):
+    mat = 0
     if request.method == "POST":
-        aluno = request.POST.get("aluno_r")
+        mat = request.POST.get("id_matricula")
+    matricula = MatriculaDisciplinar.objects.get(id=mat)
+    registrar_presenca(matricula)
+    aluno = matricula.aluno
     response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
     response.set_cookie('aluno', aluno)
+    response.set_cookie('matricula', matricula)
     return response
 
 
 def registered(request):
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
+        matricula = request.COOKIES['matricula']
+        registrar_presenca(matricula)
     else:
         return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})

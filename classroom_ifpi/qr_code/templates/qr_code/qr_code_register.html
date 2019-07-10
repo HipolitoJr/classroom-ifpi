@@ -5,9 +5,9 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="AlunoSelect">Selecione seu nome aqui:</label>
-            <select name="aluno_r" class="form-control" id="AlunoSelect">
+            <select name="id_matricula" class="form-control" id="AlunoSelect">
                 {% for matricula in matriculas %}
-                    <option>{{ matricula.aluno }}</option>
+                    <option value="{{ matricula.pk }}">{{ matricula.aluno }}</option>
                 {% endfor %}
             </select>
         </div>
