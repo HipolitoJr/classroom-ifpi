@@ -4,7 +4,7 @@ import os
 import platform
 import re
 from django.shortcuts import render, render_to_response, redirect
-from comum.models import Horario, Turma, MatriculaDisciplinar
+from comum.models import Horario, MatriculaDisciplinar
 from frequencia.models import Registro, Frequencia
 from horarios.models import AusenciaInteresse, DeclaracaoAusencia
 
@@ -38,7 +38,7 @@ def get_ip_wifi():
     return ip
 
 
-def horario_padrao():
+def horario_normal():
     DIAS = (
         'SEGUNDA',
         'TERCA',
@@ -52,11 +52,11 @@ def horario_padrao():
     horario = Horario.objects.filter(dia_semana=DIAS[hoje.weekday()],
                                      hora_inicio__lte=datetime.datetime.now().time(),
                                      hora_fim__gte=datetime.datetime.now().time())
-    return horario[0].id
+    return horario[0]
 
 
 def turma_alternativa():
-    horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_padrao())
+    horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_normal())
     # if horario_vago.__len__() != 0:
     prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
     return prof_substituto
@@ -69,10 +69,8 @@ def home(request):
 
 
 def get_alunos(request):
-    horario_atual = horario_padrao()
-    turma = Turma.objects.filter(horario=horario_atual)
-    turmaDiscId = turma[0].disciplina_id
-    matriculas = MatriculaDisciplinar.objects.filter(disciplina=turmaDiscId)
+    horario_atual = horario_normal()
+    matriculas = horario_atual.turma.matricula_disciplinar.all()
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
@@ -91,26 +89,26 @@ def ip_repetido(request):
 
 def registrar_presenca(matricula):
     reg = Registro()
-    h_atual = Horario.objects.filter(id=horario_padrao())
-    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio=h_atual[0].hora_inicio,
-                                     hora_fim=h_atual[0].hora_fim)
+    h_atual = horario_normal()
+    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio=h_atual.hora_inicio,
+                                     hora_fim=h_atual.hora_fim)
     reg.status = True
     reg.frequencia = freq[0]
-    reg.aluno = MatriculaDisciplinar.objects.get(id=matricula.aluno.id)
+    reg.aluno = h_atual.turma.matricula_disciplinar.get(id=matricula)
     reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
     reg.save()
 
 
 def register(request):
-    mat = 0
+    mat = ''
     if request.method == "POST":
         mat = request.POST.get("id_matricula")
     matricula = MatriculaDisciplinar.objects.get(id=mat)
-    registrar_presenca(matricula)
+    registrar_presenca(mat)
     aluno = matricula.aluno
     response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
     response.set_cookie('aluno', aluno)
-    response.set_cookie('matricula', matricula)
+    response.set_cookie('matricula', mat)
     return response
 
 
