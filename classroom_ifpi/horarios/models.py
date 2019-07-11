@@ -15,6 +15,8 @@ class DeclaracaoAusencia(models.Model):
                                 related_name='declaracao_ausencia')
     data_falta = models.DateField()
     data_declaracao = models.DateField()
+    def __str__(self):
+        return str(self.data_falta)
 
     def __str__(self):
         return self.professor.usuario.first_name + " - " + self.justificativa
@@ -24,6 +26,8 @@ class DeclaracaoInteresse(models.Model):
     declarador = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE,
                                    related_name='declaracao_interessse')
     data_declaracao = models.DateField()
+    def __str__(self):
+        return self.declarador.usuario.username
 
     def __str__(self):
         return self.declarador.usuario.first_name + " - " + str(self.data_declaracao)

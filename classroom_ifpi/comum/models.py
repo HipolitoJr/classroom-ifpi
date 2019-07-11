@@ -24,7 +24,7 @@ class Professor(models.Model):
     cpf = models.CharField(max_length=14, null=False, blank=False)
 
     def __str__(self):
-        return self.usuario.first_name + " " +self.usuario.last_name
+        return self.usuario.first_name + self.usuario.last_name
 
 
 class Disciplina(models.Model):
@@ -74,7 +74,7 @@ class MatriculaDisciplinar(models.Model):
     def __str__(self):
         return self.aluno.usuario.first_name + " " + self.aluno.usuario.last_name + " - " + self.disciplina.especificacao_disciplina
 
-    
+
 class Horario(models.Model):
 
     DIA_SEMANA_CHOICES = (
