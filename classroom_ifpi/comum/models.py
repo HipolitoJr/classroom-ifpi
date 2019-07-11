@@ -50,6 +50,7 @@ class Turma(models.Model):
     especificacao_disciplina = models.CharField(max_length=100, null=False, blank=False)
     disciplina = models.ForeignKey(Disciplina, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
     carga_horaria = models.IntegerField()
+    carga_horaria_ministrada = models.IntegerField()
     curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
     alunos = models.ManyToManyField(Aluno, through='MatriculaDisciplinar')
 

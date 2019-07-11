@@ -23,14 +23,14 @@ class DeclaracaoAusencia(models.Model):
 
 
 class DeclaracaoInteresse(models.Model):
-    declarador = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE,
+    declarador = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE,
                                    related_name='declaracao_interessse')
     data_declaracao = models.DateField()
     def __str__(self):
-        return self.declarador.usuario.username
+        return self.declarador.ministrante.usuario.username
 
     def __str__(self):
-        return self.declarador.usuario.first_name + " - " + str(self.data_declaracao)
+        return self.declarador.ministrante.usuario.first_name + " - " + str(self.data_declaracao)
 
 
 class AusenciaInteresse(models.Model):
@@ -44,4 +44,4 @@ class AusenciaInteresse(models.Model):
                                     related_name='ausencia_interesse')
 
     def __str__(self):
-        return self.ausencia.professor.usuario.first_name + " - " + self.interessado.declarador.usuario.first_name
+        return self.ausencia.professor.usuario.first_name + " - " + self.interessado.declarador.ministrante.usuario.first_name
