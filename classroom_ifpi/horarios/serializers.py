@@ -1,19 +1,24 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import *
 
-
-class DeclaracaoAusenciaSerializer(serializers.ModelSerializer):
+class DeclaracaoAusenciaSerializer(serializers.HyperlinkedModelSerializer):
+    professor = serializers.SlugRelatedField(queryset=Professor.objects.all(), slug_field='matricula')
+    turma = serializers.SlugRelatedField(queryset=Turma.objects.all(), slug_field='especificacao_disciplina')
+    horario = serializers.SlugRelatedField(queryset=Horario.objects.all(), slug_field='hora_inicio')
     class Meta:
         model = DeclaracaoAusencia
-        fields = ('__all__')
+        fields = ('justificativa','professor','turma','horario','data_falta','data_declaracao')
 
 class AusenciaInteresseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AusenciaInteresse
-        fields = ('__all__')
+	#interessado = serializers.SlugRelatedField(queryset=Professor.objects.all(), slug_field='matricula')
+	class Meta:
+		model = AusenciaInteresse
+		fields = ('ausencia','hora_inicio','hora_fim','status','interessado')
 
 
 class DeclaracaoInteresseSerializer(serializers.ModelSerializer):
+    declarador = serializers.SlugRelatedField(queryset=Professor.objects.all(), slug_field='matricula')
     class Meta:
         model = DeclaracaoInteresse
-        fields = ('__all__')
+        fields = ('declarador','data_declaracao')

@@ -26,7 +26,7 @@ SECRET_KEY = 's830u)*7%96%(!82nlpnd&afs$fm-g*gg&xppg=3*d!0s_%o6d'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-
+  '192.168.1.5',
 ]
 
 
@@ -100,8 +100,13 @@ DATABASES = {
        'PORT': '5432',
   }
 }
-
-
+'''DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+'''
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 

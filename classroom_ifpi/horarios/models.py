@@ -12,12 +12,16 @@ class DeclaracaoAusencia(models.Model):
     horario = models.ForeignKey(Horario, null= False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
     data_falta = models.DateField()
     data_declaracao = models.DateField()
+    def __str__(self):
+        return str(self.data_falta)
 
 
 class DeclaracaoInteresse(models.Model):
     declarador = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE,
                                    related_name='declaracao_interessse')
     data_declaracao = models.DateField()
+    def __str__(self):
+        return self.declarador.usuario.username
 
 
 class AusenciaInteresse(models.Model):
