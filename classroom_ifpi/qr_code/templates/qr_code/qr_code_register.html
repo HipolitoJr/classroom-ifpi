@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Frequência</title>
-</head>
-<body>
-    <h1>Diga-nos quem é você:</h1>
-</body>
-</html>
+{% extends 'qr_code/base.html' %}
+{% block content %}
+    <h2>Quem é você?</h2>
+    <form action="{% url 'register' %}" method="POST" class="post-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="AlunoSelect">Selecione seu nome aqui:</label>
+            <select name="id_matricula" class="form-control" id="AlunoSelect">
+                {% for matricula in matriculas %}
+                    <option value="{{ matricula.pk }}">{{ matricula.aluno }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="save btn btn-primary">OK</button>
+    </form>
+{% endblock %}

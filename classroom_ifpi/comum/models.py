@@ -18,7 +18,6 @@ class Curso(models.Model):
     def __str__(self):
         return self.descricao
 
-
 class Professor(models.Model):
     matricula = models.CharField(max_length=15, null=False, blank=False)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='professor')
@@ -43,7 +42,7 @@ class Aluno(models.Model):
     curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='aluno')
 
     def __str__(self):
-        return self.usuario.first_name + self.usuario.last_name
+        return self.usuario.first_name+" "+self.usuario.last_name
 
 
 class Turma(models.Model):
@@ -72,12 +71,24 @@ class MatriculaDisciplinar(models.Model):
                                    related_name='matricula_disciplinar')
     situacao = models.CharField(max_length=1, choices=SITUACAO_CHOICES, null=False, blank=False, default='C')
 
-    
+    def __str__(self):
+        return self.aluno.usuario.first_name + " " + self.aluno.usuario.last_name + " - " + self.disciplina.especificacao_disciplina
+
+
 class Horario(models.Model):
 
-    dia_semana = models.CharField(max_length=7, null=False, blank=False )
+    DIA_SEMANA_CHOICES = (
+        ('SEGUNDA', 'Segunda Feira'),
+        ('TERCA', 'Terça Feira'),
+        ('QUARTA', 'Quarta Feira'),
+        ('QUINTA', 'Quinta Feira'),
+        ('SEXTA', 'Sexta Feira'),
+    )
+
+    dia_semana = models.CharField(max_length=7, choices=DIA_SEMANA_CHOICES, null=False, blank=False )
     hora_inicio = models.TimeField()
     hora_fim = models.TimeField()
     turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='horario')
+
     def __str__(self):
-        return self.dia_semana+" de "+str(self.hora_inicio)+' as '+str(self.hora_fim)
+        return self.turma.ministrante.usuario.first_name + " - " + self.dia_semana

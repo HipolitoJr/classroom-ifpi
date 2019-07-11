@@ -26,7 +26,7 @@ SECRET_KEY = 's830u)*7%96%(!82nlpnd&afs$fm-g*gg&xppg=3*d!0s_%o6d'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-  '192.168.1.5',
+    # '192.168.1.10'
 ]
 
 
@@ -45,8 +45,8 @@ INSTALLED_APPS = [
    'horarios',
    'rest_framework',
    'rest_framework.authtoken',
-    'django_qr_creator',
-    'qr_code',
+   'django_qr_creator',
+   'qr_code',
 ]
 
 REST_FRAMEWORK = {
@@ -92,21 +92,16 @@ WSGI_APPLICATION = 'classroom_ifpi.wsgi.application'
 
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
        'NAME': 'classroomdb',
        'USER': 'postgres',
-       'PASSWORD': 'postgres',
+       'PASSWORD': 'root',
        'HOST': '127.0.0.1',
        'PORT': '5432',
   }
 }
-'''DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -131,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
