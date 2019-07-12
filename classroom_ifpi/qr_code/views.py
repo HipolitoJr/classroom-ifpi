@@ -57,7 +57,6 @@ def horario_normal():
 
 def turma_alternativa():
     horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_normal())
-    # if horario_vago.__len__() != 0:
     prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
     return prof_substituto
 
@@ -71,7 +70,7 @@ def home(request):
 def get_alunos(request):
     freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
                                      hora_fim__gte=datetime.datetime.now().time())
-    matriculas = freq[0].disciplina.alunos.all()
+    matriculas = freq[0].disciplina.matricula_disciplinar.all()
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
@@ -89,22 +88,21 @@ def ip_repetido(request):
 
 
 def registrar_presenca(matricula):
-
     freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
                                      hora_fim__gte=datetime.datetime.now().time())
-    if freq.ativa is True:
+    if freq[0].ativa == False:
+        return redirect('register_expired')
+    else:
         reg = Registro()
         reg.status = True
         reg.frequencia = freq[0]
-        reg.aluno = freq.turma.matricula_disciplinar.get(id=matricula)
+        reg.aluno = freq[0].disciplina.matricula_disciplinar.get(id=matricula)
         reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
         reg.save()
-    else:
-        redirect('register_expired')
 
 
 def register_expired(request):
-    return render(request, 'qr_code/qr_code_register_expiredd.html', {})
+    return render(request, 'qr_code/qr_code_register_expired.html', {})
 
 
 def register(request):
