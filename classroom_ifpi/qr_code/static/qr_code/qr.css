@@ -1,3 +1,4 @@
+/* ----------- PC ----------- */
 html {
     background-color: #fbffca;
 }
@@ -69,3 +70,41 @@ label {
     padding-top: 20px;
     padding-bottom: 40px;
 }
+
+
+/*!* ----------- Tablet ----------- *!*/
+/*@media*/
+/*  (max-device-width: 800px){*/
+/*    body{*/
+/*        width: 90%;*/
+/*    }*/
+/*    h2{*/
+/*        font-size: 500%;*/
+/*    }*/
+/*    label{*/
+/*        font-size: 250%;*/
+/*    }*/
+/*    option{*/
+/*        font-size: 250%;*/
+/*    }*/
+/*    button*/
+/*}*/
+
+
+/*!* ----------- Phone ----------- *!*/
+/*@media screen*/
+/*  and (device-width: 425px){*/
+/*    body{*/
+/*        width: 100%;*/
+/*    }*/
+/*    h2{*/
+/*        font-size: 600%;*/
+/*    }*/
+/*    label{*/
+/*        font-size: 300%;*/
+/*    }*/
+/*    option{*/
+/*        font-size: 300%;*/
+/*    }*/
+/*    button*/
+/*}*/

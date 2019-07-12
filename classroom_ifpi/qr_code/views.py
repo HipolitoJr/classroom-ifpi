@@ -15,7 +15,7 @@ def get_net_config():
     if SO == 'Linux':
         os.system("ifconfig > " + arch)
     elif SO == 'Windows':
-        os.system("ifconfig | " + arch)
+        os.system("ipconfig | " + arch)
     return arch
 
 
@@ -30,7 +30,7 @@ def get_ip_wifi():
     text.close()
     for l in range(len(lines)):
         if "wlp8s0" in lines[l]:
-            lines[l] = lines[l+1]
+            lines[l] = lines[l + 1]
             if "inet addr:" in lines[l]:
                 if "127.0.0.1" not in lines[l]:
                     ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", lines[l])
@@ -57,7 +57,6 @@ def horario_normal():
 
 def turma_alternativa():
     horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_normal())
-    # if horario_vago.__len__() != 0:
     prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
     return prof_substituto
 
@@ -69,8 +68,9 @@ def home(request):
 
 
 def get_alunos(request):
-    horario_atual = horario_normal()
-    matriculas = horario_atual.turma.matricula_disciplinar.all()
+    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
+                                     hora_fim__gte=datetime.datetime.now().time())
+    matriculas = freq[0].disciplina.matricula_disciplinar.all()
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
@@ -88,15 +88,24 @@ def ip_repetido(request):
 
 
 def registrar_presenca(matricula):
-    reg = Registro()
-    h_atual = horario_normal()
-    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio=h_atual.hora_inicio,
-                                     hora_fim=h_atual.hora_fim)
-    reg.status = True
-    reg.frequencia = freq[0]
-    reg.aluno = h_atual.turma.matricula_disciplinar.get(id=matricula)
-    reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
-    reg.save()
+    freq = Frequencia.objects.filter(data=datetime.date.today(),
+                                     hora_inicio__lte=datetime.datetime.now().time(),
+                                     hora_fim__gte=datetime.datetime.now().time())
+    if freq[0].ativa is False:
+        salvo = False
+    else:
+        reg = Registro()
+        reg.status = True
+        reg.frequencia = freq[0]
+        reg.aluno = freq[0].disciplina.matricula_disciplinar.get(id=matricula)
+        reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
+        reg.save()
+        salvo = True
+    return salvo
+
+
+def register_expired(request):
+    return render(request, 'qr_code/qr_code_register_expired.html', {})
 
 
 def register(request):
@@ -104,7 +113,9 @@ def register(request):
     if request.method == "POST":
         mat = request.POST.get("id_matricula")
     matricula = MatriculaDisciplinar.objects.get(id=mat)
-    registrar_presenca(mat)
+    reg = registrar_presenca(mat)
+    if reg is False:
+        return redirect('register_expired')
     aluno = matricula.aluno
     response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
     response.set_cookie('aluno', aluno)
@@ -116,7 +127,9 @@ def registered(request):
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
         matricula = request.COOKIES['matricula']
-        registrar_presenca(matricula)
+        reg = registrar_presenca(matricula)
+        if reg is False:
+            return redirect('register_expired')
     else:
         return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
