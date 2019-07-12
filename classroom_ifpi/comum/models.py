@@ -18,6 +18,7 @@ class Curso(models.Model):
     def __str__(self):
         return self.descricao
 
+
 class Professor(models.Model):
     matricula = models.CharField(max_length=15, null=False, blank=False)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='professor')
@@ -50,7 +51,7 @@ class Turma(models.Model):
     especificacao_disciplina = models.CharField(max_length=100, null=False, blank=False)
     disciplina = models.ForeignKey(Disciplina, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
     carga_horaria = models.IntegerField()
-    carga_horaria_ministrada = models.IntegerField()
+    carga_horaria_ministrada = models.IntegerField(default=0)
     curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
     alunos = models.ManyToManyField(Aluno, through='MatriculaDisciplinar')
 

@@ -15,7 +15,7 @@ def get_net_config():
     if SO == 'Linux':
         os.system("ifconfig > " + arch)
     elif SO == 'Windows':
-        os.system("ifconfig | " + arch)
+        os.system("ipconfig | " + arch)
     return arch
 
 
@@ -30,7 +30,7 @@ def get_ip_wifi():
     text.close()
     for l in range(len(lines)):
         if "wlp8s0" in lines[l]:
-            lines[l] = lines[l+1]
+            lines[l] = lines[l + 1]
             if "inet addr:" in lines[l]:
                 if "127.0.0.1" not in lines[l]:
                     ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", lines[l])
@@ -69,8 +69,9 @@ def home(request):
 
 
 def get_alunos(request):
-    horario_atual = horario_normal()
-    matriculas = horario_atual.turma.matricula_disciplinar.all()
+    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
+                                     hora_fim__gte=datetime.datetime.now().time())
+    matriculas = freq[0].disciplina.alunos.all()
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
@@ -88,15 +89,22 @@ def ip_repetido(request):
 
 
 def registrar_presenca(matricula):
-    reg = Registro()
-    h_atual = horario_normal()
-    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio=h_atual.hora_inicio,
-                                     hora_fim=h_atual.hora_fim)
-    reg.status = True
-    reg.frequencia = freq[0]
-    reg.aluno = h_atual.turma.matricula_disciplinar.get(id=matricula)
-    reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
-    reg.save()
+
+    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
+                                     hora_fim__gte=datetime.datetime.now().time())
+    if freq.ativa is True:
+        reg = Registro()
+        reg.status = True
+        reg.frequencia = freq[0]
+        reg.aluno = freq.turma.matricula_disciplinar.get(id=matricula)
+        reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
+        reg.save()
+    else:
+        redirect('register_expired')
+
+
+def register_expired(request):
+    return render(request, 'qr_code/qr_code_register_expiredd.html', {})
 
 
 def register(request):
