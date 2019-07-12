@@ -7,7 +7,7 @@ from comum.models import Turma, Professor, Horario
 class DeclaracaoAusencia(models.Model):
 
     justificativa = models.CharField(max_length=255, null=False, blank=False)
-    professor = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
+    #professor = models.ForeignKey(Professor, null=False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
     turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
     horario = models.ForeignKey(Horario, null= False, blank=False, on_delete=models.CASCADE, related_name='declaracao_ausencia')
     data_falta = models.DateField()

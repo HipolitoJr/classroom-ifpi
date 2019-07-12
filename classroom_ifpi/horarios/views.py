@@ -4,6 +4,7 @@ from horarios.models import DeclaracaoAusencia, AusenciaInteresse, DeclaracaoInt
 from horarios.serializers import *
 from django.contrib.auth.models import User
 
+
 # Create your views here.
 
 class DeclaracaoAusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -17,7 +18,8 @@ class DeclaracaoAusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class DeclaracaoAusenciaList(generics.ListCreateAPIView):
     #queryset = DeclaracaoAusencia.objects.all()
-    
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
     def get_queryset(self):
         username = self.request.query_params.get('username', None)
         if username is None:
