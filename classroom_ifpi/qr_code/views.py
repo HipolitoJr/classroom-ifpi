@@ -88,10 +88,11 @@ def ip_repetido(request):
 
 
 def registrar_presenca(matricula):
-    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
+    freq = Frequencia.objects.filter(data=datetime.date.today(),
+                                     hora_inicio__lte=datetime.datetime.now().time(),
                                      hora_fim__gte=datetime.datetime.now().time())
-    if freq[0].ativa == False:
-        return redirect('register_expired')
+    if freq[0].ativa is False:
+        salvo = False
     else:
         reg = Registro()
         reg.status = True
@@ -99,6 +100,8 @@ def registrar_presenca(matricula):
         reg.aluno = freq[0].disciplina.matricula_disciplinar.get(id=matricula)
         reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
         reg.save()
+        salvo = True
+    return salvo
 
 
 def register_expired(request):
@@ -110,7 +113,9 @@ def register(request):
     if request.method == "POST":
         mat = request.POST.get("id_matricula")
     matricula = MatriculaDisciplinar.objects.get(id=mat)
-    registrar_presenca(mat)
+    reg = registrar_presenca(mat)
+    if reg is False:
+        return redirect('register_expired')
     aluno = matricula.aluno
     response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
     response.set_cookie('aluno', aluno)
@@ -122,7 +127,9 @@ def registered(request):
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
         matricula = request.COOKIES['matricula']
-        registrar_presenca(matricula)
+        reg = registrar_presenca(matricula)
+        if reg is False:
+            return redirect('register_expired')
     else:
         return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
