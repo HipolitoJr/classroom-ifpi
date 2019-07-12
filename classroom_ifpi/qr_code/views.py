@@ -28,6 +28,15 @@ def get_ip_wifi():
     text = open(arch)
     lines = text.readlines()
     text.close()
+    if platform.system() == 'Linux':
+        ip = read_linux(lines)
+    else:
+        ip = read_windows(lines)
+    return ip
+
+
+def read_windows(lines):
+    ip = ""
     for l in range(len(lines)):
         if "wlp8s0" in lines[l]:
             lines[l] = lines[l + 1]
@@ -35,6 +44,17 @@ def get_ip_wifi():
                 if "127.0.0.1" not in lines[l]:
                     ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", lines[l])
                     ip = ips[0]
+    return ip
+
+
+def read_linux(lines):
+    ip = ""
+    for l in range(len(lines)):
+        if "Adaptador de Rede sem Fio Wi-Fi:" in lines[l]:
+            lines[l] = lines[l + 4]
+            if "IPv4" in lines[l]:
+                ips = re.findall("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", lines[l])
+                ip = ips[0]
     return ip
 
 
