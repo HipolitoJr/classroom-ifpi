@@ -3,59 +3,62 @@ from .models import *
 from django.contrib.auth.models import User
 from django.db import transaction
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('username','password','first_name', 'last_name')
+        fields = ('url','id','username','password','first_name', 'last_name')
 
 
-class AlunoSerializer(serializers.ModelSerializer):
+class AlunoSerializer(serializers.HyperlinkedModelSerializer):
+    usuario = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    curso = serializers.SlugRelatedField(queryset=Curso.objects.all(), slug_field='descricao')
     class Meta:
         model = Aluno
-        usuario = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
-        curso = serializers.SlugRelatedField(queryset=Curso.objects.all(), slug_field='disciplina')
-        fields = ('matricula_curso','usuario','cpf','curso')
+        fields = ('url','id','matricula_curso','usuario','cpf','curso')
 
 
-class ProfessorSerializer(serializers.ModelSerializer):
+class ProfessorSerializer(serializers.HyperlinkedModelSerializer):
+    usuario = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
     class Meta:
         model = Professor
         usuario = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
-        fields = ('matricula', 'cpf', 'usuario')
+        fields = ('url','id','matricula', 'cpf', 'usuario')
 
 
-class DisciplinaSerializer(serializers.ModelSerializer):
+class DisciplinaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Disciplina
         ministrantes = serializers.SlugRelatedField(queryset=Professor.objects.all(), many=True, slug_field='usuario.username')
-        fields = ('descricao','ministrantes')
+        fields = ('url','id','descricao','ministrantes')
 
 
-class TurmaSerializer(serializers.ModelSerializer):
+class TurmaSerializer(serializers.HyperlinkedModelSerializer):
+    ministrante = serializers.SlugRelatedField(queryset=Professor.objects.all(), slug_field='nome')
+    disciplina = serializers.SlugRelatedField(queryset=Disciplina.objects.all(), slug_field='descricao')
+    curso = serializers.SlugRelatedField(queryset=Curso.objects.all(), slug_field='descricao')
+    alunos = AlunoSerializer(many=True, read_only=True)
     class Meta:
         model = Turma
-        ministrante = serializers.SlugRelatedField(queryset=Professor.objects.all(), slug_field='usuario')
-        disciplina = serializers.SlugRelatedField(queryset=Disciplina.objects.all(), slug_field='descricao')
-        curso = serializers.SlugRelatedField(queryset=Curso.objects.all(), slug_field='disciplina')
-        alunos = serializers.SlugRelatedField(queryset=MatriculaDisciplinar.objects.all(), slug_field='username')
-        fields = ( 'especificacao_disciplina','carga_horaria','ministrante','disciplina', 'curso')
+        fields = ('url','id','especificacao_disciplina','carga_horaria',
+            'ministrante','disciplina', 'curso', 'alunos')
 
 
-class MatriculaDisciplinarSerializer(serializers.ModelSerializer):
+class MatriculaDisciplinarSerializer(serializers.HyperlinkedModelSerializer):
+    aluno = serializers.SlugRelatedField(queryset=Aluno.objects.all(), slug_field='nome')
+    disciplina = serializers.SlugRelatedField(queryset=Turma.objects.all(), slug_field='especificacao_disciplina')
     class Meta:
         model = MatriculaDisciplinar
-        aluno = serializers.SlugRelatedField(queryset=Aluno.objects.all(), slug_field='name')
-        disciplina = serializers.SlugRelatedField(queryset=Disciplina.objects.all(), slug_field='descricao')
-        fields = ('__all__')
+        fields = ('url','id','aluno', 'disciplina')
 
 
-class CursoSerializer(serializers.ModelSerializer):
+class CursoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Curso
-        fields = ('__all__')
+        fields = ('url','id','descricao', 'tipo')
 
 
-class HorarioSerializer(serializers.ModelSerializer):
+class HorarioSerializer(serializers.HyperlinkedModelSerializer):
+    turma = serializers.SlugRelatedField(queryset=Turma.objects.all(),slug_field='especificacao_disciplina')
     class Meta:
         model = Horario
-        fields = ('__all__')
+        fields = ('url','id','dia_semana', 'hora_inicio','hora_fim', 'turma')
