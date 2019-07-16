@@ -22,6 +22,7 @@ from rest_framework import routers
 from comum import views as comum_views
 from horarios import views as horario_views
 from frequencia import views as frequencia_views
+from painel import views as painel_views
 from qr_code import views
 
 
@@ -69,4 +70,6 @@ urlpatterns = [
     path('api/frequencias/', frequencia_views.FrequenciaList.as_view(), name = frequencia_views.FrequenciaList.name),
     path('api/registros/<int:pk>', frequencia_views.RegistroDetail.as_view(), name=frequencia_views.RegistroDetail.name),
     path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
+
+    path('painel/', painel_views.painel, name = 'painel'),
 ]
