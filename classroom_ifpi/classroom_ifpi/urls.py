@@ -72,4 +72,6 @@ urlpatterns = [
     path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
 
     path('painel/', painel_views.painel, name = 'painel'),
+    path('cadastro/professor/', painel_views.add_professor, name = 'add_professor'),
+    path('login/', painel_views.login, name = 'login'),
 ]
