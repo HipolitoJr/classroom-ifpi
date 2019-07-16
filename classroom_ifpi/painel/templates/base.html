@@ -49,7 +49,7 @@
         <hr>
 
         <li>
-            <a href="#!">
+            <a href="{% url 'alunos' %}">
                 <i class="fas fa-fw fa-user-graduate"></i>
                 Alunos
             </a>
@@ -76,9 +76,24 @@
             </ul>
         </div>
     </nav>
-    <div class="card" style="padding-left: 270px; padding-right: 20px;">
-        {% block 'body' %}
-        {% endblock %}
+    <div class="card" style="padding-left: 270px;">
+        <div class="valign-wrapper" style="width:100%;height:100%;">
+            <div class="valign" style="width:100%;">
+                <div class="container" style="heigth:100%">
+                    {% block 'body' %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+
+<script type="text/javascript">//<![CDATA[
+window.onload=function(){
+$(document).ready(function() {
+    $('select').material_select();
+});
+}//]]>
+
+</script>
 </html>

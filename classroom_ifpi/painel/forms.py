@@ -10,3 +10,12 @@ class CadastrarProfessorForm(forms.Form):
     email = forms.EmailField(required=True)
     username = forms.CharField(required=True)
     matricula = forms.CharField(required=True)
+
+
+class CadastrarAlunoForm(forms.Form):
+
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    matricula_curso = forms.CharField(required=True)
+    curso = forms.IntegerField(required=True)
+    email = forms.EmailField(required=True)

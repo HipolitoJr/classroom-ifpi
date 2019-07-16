@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+<div class="container" style="heigth:100%">
+    <div class="col s12 m8 offset-m2">
+        <form method="post" action="{% url 'add_aluno' %}">
+          {% csrf_token %}
+              <div align="center" class="card-title">
+                  <h5 class="grey-text">Cadastro de Aluno</h5>
+              </div>
+
+              <div class="row">
+                  <div class="input-field col s6">
+                    <i class="prefix fas fa-user"></i>
+                    <input name="first_name" type="text" class="validate">
+                    <label>Nome</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="prefix fas fa-user"></i>
+                    <input name="last_name" type="text" class="validate">
+                    <label>Sobrenome</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="prefix fas fa-id-card"></i>
+                    <input name="matricula_curso" type="text" class="validate">
+                    <label>Matricula Curso</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="prefix fas fa-at"></i>
+                    <input name="email" type="email" class="validate">
+                    <label>Email</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <select name="curso" class="validate">
+                      {% for curso in cursos %}
+                        <option value="{{ curso.id }}">{{ curso }}</option>
+                      {% endfor %}
+                    </select>
+                    <label>Curso</label>
+                  </div>
+                  <div class="input-field col s12" align="center">
+                      <button class="btn waves-effect waves-light" type="submit">Salvar</button>
+                      <button class="btn waves-effect red darken-4 waves-light" type="reset">Cancelar</button>
+                  </div>
+              </div>
+
+              <br>
+        </form>
+  </div>
+</div>
+{% endblock %}

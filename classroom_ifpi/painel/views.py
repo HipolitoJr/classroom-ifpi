@@ -12,14 +12,12 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic.base import View
 
-from comum.models import Turma, Professor
-from painel.forms import CadastrarProfessorForm
+from comum.models import Turma, Professor, Aluno, MatriculaDisciplinar, Curso
+from painel.forms import CadastrarProfessorForm, CadastrarAlunoForm
 
 
 def painel(request):
     return render(request, 'base.html')
-
-
 
 class CadastrarProfessorView(View):
 
@@ -34,8 +32,8 @@ class CadastrarProfessorView(View):
             senha = make_password("%s" %dados['password'])
             confirma_senha = make_password("%s" %dados['confirma_password'])
 
-            # if senha != confirma_senha:
-            #     return messages.error(request, 'Senhas diferentes!')
+            if senha != confirma_senha:
+                return messages.error(request, 'Senhas diferentes!')
 
             usuario = User(username=dados['username'],
                            first_name=dados['first_name'],
@@ -61,7 +59,49 @@ class CadastrarProfessorView(View):
         messages.error(request, 'Algo deu errado.')
         return render(request, 'cadastro_professor.html', {'form': form} )
 
-@login_required
+
+class CadastrarAlunoView(View):
+
+    def get(self, request):
+        cursos = Curso.objects.all()
+        return render(request,
+                      'cadastro_aluno.html',
+                      {'titulo': 'Cadastro de Alunos',
+                       'cursos': cursos})
+
+    def post(self, request):
+
+        form = CadastrarAlunoForm(request.POST)
+        if (form.is_valid()):
+            dados = form.data
+            senha = make_password("Abcd1234")
+
+            usuario = User(username= '%s'%dados['first_name'],
+                           first_name=dados['first_name'],
+                           last_name=dados['last_name'],
+                           email=dados['email'],
+                           password=senha,
+                           last_login=timezone.now(),
+                           is_superuser=False,
+                           is_staff=False,
+                           is_active=False,
+                           date_joined=timezone.now())
+            usuario.save()
+
+            aluno = Aluno(nome = "%s %s" %(dados['first_name'], dados['last_name']),
+                          matricula_curso = dados['matricula_curso'],
+                          cpf = '123.456.789-09',
+                          usuario_id = usuario.id,
+                          curso_id = dados['curso'])
+
+            aluno.save()
+            # messages.success(request, 'Seu cadastro foi realizado com sucesso.')
+            return redirect('/painel/alunos')
+
+        messages.error(request, 'Algo deu errado.')
+        return render(request, 'cadastro_aluno.html', {'form': form} )
+
+
 def list_turmas(request):
     turmas = get_turmas(request)
     return render(request,
@@ -70,12 +110,20 @@ def list_turmas(request):
                    'turmas': turmas})
 
 
-def turma_detalhe(request, turma_id):
-    turma = Turma.objects.get(id=turma_id)
+def list_alunos(request):
+    turmas = get_turmas(request)
+    alunos = Aluno.objects.all()
+
+    # for turma in turmas:
+    #     matricula_disciplinares = MatriculaDisciplinar.objects.filter(turma = turma)
+    #     for matricula_disciplinar in matricula_disciplinares:
+    #         aluno = Aluno.objects.get(pk=matricula_disciplinar.aluno_id )
+    #         alunos.append(aluno)
+
     return render(request,
-                  'turma_detalhe.html',
-                  {'titulo': turma.especificacao_disciplina,
-                   'turma': turma})
+                  'alunos.html',
+                  {'titulo': 'Seus Alunos',
+                   'alunos': alunos})
 
 
 def get_turmas(request):
