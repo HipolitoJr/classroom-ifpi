@@ -72,4 +72,5 @@ urlpatterns = [
     path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
 
     path('painel/', painel_views.painel, name = 'painel'),
+    path('painel/turmas', painel_views.list_turmas, name = 'turmas'),
 ]

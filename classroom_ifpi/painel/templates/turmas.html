@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+    <!--<p class="right-align" style="margin: 14px;">-->
+        <!--<a class="btn tean btn-small">-->
+            <!--<i class="fas fa-plus"></i>-->
+            <!--Turma-->
+        <!--</a>-->
+    <!--</p>-->
+
+    <div class="card-body">
+        <div class="row">
+            {% for turma in turmas %}
+                <div class="col s4">
+                    <br>
+                    <div class="card horizontal">
+                      <div class="card-stacked">
+                        <div class="card-content">
+                          <p class="flow-text">{{ turma.especificacao_disciplina }} - {{ turma.carga_horaria }}h</p>
+                            <p>{{ turma.curso }} - {{ turma.ministrante }}</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="#">Ver detalhes</a>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+  <div class="fixed-action-btn">
+      <a class="btn-floating btn-large tean">
+        <i class="fas fa-plus"></i>
+      </a>
+  </div>
+{% endblock %}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Classroom IFPI</title>
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
@@ -17,7 +17,7 @@
 <body>
 
     <ul id="slide-out" class="side-nav fixed">
-        <div class="red darken-4 center" style="padding: 10px">
+        <div class="red darken-4 center white-text" style="padding: 10px">
             <i class="fas fa-users fa-fw fa-5x"></i>
             <h5>Classroom IFPI</h5>
         </div>
@@ -28,8 +28,8 @@
             </a>
         </li>
         <li>
-            <a href="#!">
-                <i class="fas fa-fw fa-user-graduate"></i>
+            <a href="{% url 'turmas' %}">
+                <i class="fas fa-fw fa-chalkboard-teacher"></i>
                 Turmas
             </a>
         </li>
@@ -41,29 +41,44 @@
         </li>
         <li>
             <a href="#!">
-                <i class="fas fa-fw fa-user"></i>
+                <i class="fas fa-fw fa-user-tie"></i>
                 Profesores
             </a>
         </li>
 
         <hr>
 
-        <li><a href="#!">Alunos</a></li>
         <li>
             <a href="#!">
-                Frequencia</a></li>
+                <i class="fas fa-fw fa-user-graduate"></i>
+                Alunos
+            </a>
+        </li>
+        <li>
+            <a href="#!">
+                <i class="fas fa-fw fa-clipboard-list"></i>
+                Frequencia
+            </a>
+        </li>
     </ul>
 
     <nav class="red darken-4" style="padding-left: 280px;">
         <div class="nav-wrapper">
-             <a href="#">Cadastro Alunos</a>
+            <a href="#" style="font-size: 20pt">{{ titulo }}</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="#">Meu Perfil</a></li>
+                <li>
+                    <a href="#">
+                        {{ user.username }}
+                    </a>
+                </li>
                 <li><a href="#">Alterar Senha</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </div>
     </nav>
-
+    <div class="card" style="padding-left: 270px;">
+        {% block 'body' %}
+        {% endblock %}
+    </div>
 </body>
 </html>
