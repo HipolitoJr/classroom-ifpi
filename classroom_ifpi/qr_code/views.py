@@ -20,7 +20,6 @@ def get_net_config():
 
 
 def get_ip_wifi():
-    ip = "127.0.0.1"
     os.system("rm netconf.txt")
     arq = open("netconf.txt", 'w')
     arq.close()
@@ -30,8 +29,10 @@ def get_ip_wifi():
     text.close()
     if platform.system() == 'Linux':
         ip = read_linux(lines)
-    else:
+    elif platform.system() == 'Windows':
         ip = read_windows(lines)
+    else:
+        ip = "127.0.0.1"
     return ip
 
 
