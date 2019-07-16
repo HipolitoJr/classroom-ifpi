@@ -13,7 +13,7 @@ from django.utils import timezone
 from django.views.generic.base import View
 
 from comum.models import Turma, Professor, Aluno, MatriculaDisciplinar, Curso
-from painel.forms import CadastrarProfessorForm, CadastrarAlunoForm
+from painel.forms import CadastrarProfessorForm, CadastrarAlunoForm, MatricularAlunoForm
 
 
 def painel(request):
@@ -95,13 +95,54 @@ class CadastrarAlunoView(View):
                           curso_id = dados['curso'])
 
             aluno.save()
-            # messages.success(request, 'Seu cadastro foi realizado com sucesso.')
             return redirect('/painel/alunos')
 
         messages.error(request, 'Algo deu errado.')
         return render(request, 'cadastro_aluno.html', {'form': form} )
 
 
+class MatricularAlunoView(View):
+
+    def get(self, request, turma_id):
+        turma = Turma.objects.get(id=turma_id)
+        alunos = Aluno.objects.all()
+        return render(request,
+                      'cadastro_matricula.html',
+                      {'titulo': 'Matricular Aluno',
+                       'turma': turma,
+                       'alunos': alunos})
+
+    def post(self, request, turma_id):
+        form = MatricularAlunoForm(request.POST)
+        if (form.is_valid()):
+            dados = form.data
+            print(dados)
+            aluno_id = dados['aluno']
+            aluno = Aluno.objects.get(id=aluno_id)
+            turma = Turma.objects.get(id=turma_id)
+
+            matricula = MatriculaDisciplinar(matricula=aluno.matricula_curso,
+                                                            disciplina=turma,
+                                                            aluno=aluno,
+                                                            situacao='C')
+            matricula.save()
+
+            return redirect('turma_detalhe', turma_id=turma_id)
+
+        return redirect('painel')
+
+# def matricular_aluno(request, turma_id, aluno_id):
+#     aluno = Aluno.objects.get(id=aluno_id)
+#     turma = Turma.objects.get(id=turma_id)
+#     MatriculaDisciplinar.objects.create(matricula=aluno.matricula_curso,
+#                                         disciplina=turma.disciplina,
+#                                         aluno=aluno,
+#                                         situacao='C')
+
+#     return redirect('painel/turmas/', args=(turma_id,))
+
+
+@login_required
 def list_turmas(request):
     turmas = get_turmas(request)
     return render(request,
@@ -109,16 +150,18 @@ def list_turmas(request):
                   {'titulo': 'Suas Turmas',
                    'turmas': turmas})
 
-
-def list_alunos(request):
-    turmas = get_turmas(request)
+@login_required
+def turma_detalhe(request, turma_id):
+    turma = Turma.objects.get(id=turma_id)
     alunos = Aluno.objects.all()
+    return render(request, 'turma_detalhe.html',
+                  {'titulo': turma.especificacao_disciplina,
+                   'turma': turma,
+                   'alunos': alunos})
 
-    # for turma in turmas:
-    #     matricula_disciplinares = MatriculaDisciplinar.objects.filter(turma = turma)
-    #     for matricula_disciplinar in matricula_disciplinares:
-    #         aluno = Aluno.objects.get(pk=matricula_disciplinar.aluno_id )
-    #         alunos.append(aluno)
+@login_required
+def list_alunos(request):
+    alunos = Aluno.objects.all()
 
     return render(request,
                   'alunos.html',

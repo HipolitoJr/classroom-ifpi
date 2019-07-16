@@ -19,3 +19,9 @@ class CadastrarAlunoForm(forms.Form):
     matricula_curso = forms.CharField(required=True)
     curso = forms.IntegerField(required=True)
     email = forms.EmailField(required=True)
+
+
+class MatricularAlunoForm(forms.Form):
+
+    aluno = forms.IntegerField(required=True)
+    turma = forms.IntegerField(required=False)

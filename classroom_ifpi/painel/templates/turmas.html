@@ -24,9 +24,6 @@
                                 <p>{{ turma.curso }} - {{ turma.ministrante }}</p>
                             </div>
                             <div class="card-action">
-                                <a onclick="window.open('{% url 'turma_detalhe' turma.id %}', '_blank', 'location=yes,height=1024,width=768,scrollbars=yes,status=yes');">
-                                    Share Page
-                                </a>
                                 <a href="{% url 'turma_detalhe' turma.id %}">Ver detalhes</a>
                             </div>
                         </div>
@@ -38,7 +35,7 @@
     </div>
 
   <div class="fixed-action-btn">
-      <a class="btn-floating btn-large tean" onclick="window.open('#', '_blank', 'location=yes,height=1024,width=768,scrollbars=yes,status=yes');">
+      <a class="btn-floating btn-large tean">
         <i class="fas fa-plus"></i>
       </a>
   </div>

@@ -72,11 +72,12 @@ urlpatterns = [
     path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
 
     path('painel/', painel_views.painel, name = 'painel'),
-    path('painel/turmas', painel_views.list_turmas, name = 'turmas'),
-    path('painel/turmas/<int:turma_id>', painel_views.turma_detalhe, name = 'turma_detalhe'),
+    path('painel/turmas/', painel_views.list_turmas, name = 'turmas'),
+    path('painel/turmas/<int:turma_id>/', painel_views.turma_detalhe, name = 'turma_detalhe'),
+    path('painel/turmas/<int:turma_id>/matricula-aluno/', painel_views.MatricularAlunoView.as_view(), name = 'matricula_aluno'),
     path('cadastro/professor/', painel_views.CadastrarProfessorView.as_view(), name = 'add_professor'),
-    path('painel/aluno/novo', painel_views.CadastrarAlunoView.as_view(), name = 'add_aluno'),
-    path('painel/alunos', painel_views.list_alunos, name = 'alunos'),
+    path('painel/aluno/novo/', painel_views.CadastrarAlunoView.as_view(), name = 'add_aluno'),
+    path('painel/alunos/', painel_views.list_alunos, name = 'alunos'),
     path('login/', painel_views.login, name = 'login'),
     path('logout/', painel_views.logout, name = 'logout'),
 ]

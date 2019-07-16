@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block 'body' %}
+<div class="row" style="margin: 12px; padding-bottom: 25%">
+    <form class="col s8 offset-s2 center" method="post" action="{% url 'matricula_aluno' turma.id %}">
+        {% csrf_token %}
+        <h5>
+            <span>Matricule alunos em  </span>{{ turma.especificacao_disciplina }}
+        </h5>
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+            <div class="input-field col s12">
+                <select name="aluno" class="validate">
+                    {% for aluno in alunos %}
+                        <option value="{{ aluno.id }}">{{ aluno.nome }} - {{ aluno.matricula_curso }}</option>
+                    {% endfor %}
+                </select>
+                <label>Nome do aluno:</label>
+            </div>
+        </div>
+
+        <button class="btn">Matricular</button>
+    </form>
+</div>
+{% endblock %}

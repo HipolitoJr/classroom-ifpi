@@ -16,76 +16,74 @@
 </head>
 <body>
 
-    <ul id="slide-out" class="side-nav fixed">
-        <div class="red darken-4 center white-text" style="padding: 10px">
-            <i class="fas fa-users fa-fw fa-5x"></i>
-            <h5>Classroom IFPI</h5>
-        </div>
-        <li>
-            <a href="#!">
-                <i class="fas fa-fw fa-graduation-cap"></i>
-                Cursos
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'turmas' %}">
-                <i class="fas fa-fw fa-chalkboard-teacher"></i>
-                Turmas
-            </a>
-        </li>
-        <li>
-            <a href="#!">
-                <i class="fas fa-fw fa-book"></i>
-                Disciplinas
-            </a>
-        </li>
-        <li>
-            <a href="#!">
-                <i class="fas fa-fw fa-user-tie"></i>
-                Profesores
-            </a>
-        </li>
-
-        <hr>
-
-        <li>
-            <a href="{% url 'alunos' %}">
-                <i class="fas fa-fw fa-user-graduate"></i>
-                Alunos
-            </a>
-        </li>
-        <li>
-            <a href="#!">
-                <i class="fas fa-fw fa-clipboard-list"></i>
-                Frequencia
-            </a>
-        </li>
-    </ul>
-
-    <nav class="red darken-4" style="padding-left: 280px;">
-        <div class="nav-wrapper">
-            <a href="#" style="font-size: 20pt">{{ titulo }}</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li>
-                    <a href="#">
-                        {{ user.username }}
-                    </a>
-                </li>
-                <li><a href="#">Alterar Senha</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="card" style="padding-left: 270px;">
-        <div class="valign-wrapper" style="width:100%;height:100%;">
-            <div class="valign" style="width:100%;">
-                <div class="container" style="heigth:100%">
-                    {% block 'body' %}
-                    {% endblock %}
-                </div>
-            </div>
-        </div>
+<ul id="slide-out" class="side-nav fixed">
+    <div class="red darken-4 center white-text" style="padding: 10px">
+        <i class="fas fa-users fa-fw fa-5x"></i>
+        <h5>Classroom IFPI</h5>
     </div>
+    <li>
+        <a href="#!">
+            <i class="fas fa-fw fa-graduation-cap"></i>
+            Cursos
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'turmas' %}">
+            <i class="fas fa-fw fa-chalkboard-teacher"></i>
+            Turmas
+        </a>
+    </li>
+    <li>
+        <a href="#!">
+            <i class="fas fa-fw fa-book"></i>
+            Disciplinas
+        </a>
+    </li>
+    <li>
+        <a href="#!">
+            <i class="fas fa-fw fa-user-tie"></i>
+            Profesores
+        </a>
+    </li>
+
+    <hr>
+
+    <li>
+        <a href="{% url 'alunos' %}">
+            <i class="fas fa-fw fa-user-graduate"></i>
+            Alunos
+        </a>
+    </li>
+    <li>
+        <a href="#!">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            Frequencia
+        </a>
+    </li>
+</ul>
+
+<nav class="red darken-4" style="padding-left: 280px;">
+    <div class="nav-wrapper">
+        <a href="#" style="font-size: 20pt">{{ titulo }}</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li>
+                <a href="#">
+                    {{ user.username }}
+                </a>
+            </li>
+            <li><a href="#">Alterar Senha</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="card" style="padding-left: 270px;">
+
+    <div>
+        {% block 'body' %}
+        {% endblock %}
+    </div>
+
+</div>
 </body>
 
 <script type="text/javascript">//<![CDATA[
@@ -94,6 +92,7 @@ $(document).ready(function() {
     $('select').material_select();
 });
 }//]]>
+
 
 </script>
 </html>

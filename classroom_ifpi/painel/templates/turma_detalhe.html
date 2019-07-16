@@ -2,68 +2,70 @@
 {% load staticfiles %}
 {% block 'body' %}
 
-    <ul class="collection">
-        <li class="collection-item avatar">
-            <div class="row">
-                <div class="col s3 center">
-                    <b class="title">Nome turma</b>
-                    <p>{{ turma.especificacao_disciplina }}<br>
-                </div>
-                <div class="col s3 center">
-                    <b class="title">Disciplina</b>
-                    <p>{{ turma.disciplina }}<br>
-                    </p>
-                </div>
-                <div class="col s3 center">
-                    <b class="title">Carga Horária</b>
-                    <p>{{ turma.carga_horaria }}h<br>
-                    </p>
-                </div>
-                <div class="col s3 center">
-                    <b class="title">Curso</b>
-                    <p>{{ turma.curso }}<br>
-                    </p>
-                </div>
+<ul class="collection">
+    <li class="collection-item avatar">
+        <div class="row">
+            <div class="col s3 center">
+                <p><b class="title">Nome turma</b></p>
+                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.especificacao_disciplina }}<br>
             </div>
-
-            </p>
-            <a href="#!" class="secondary-content"><i class="material-icons">Detalhes</i></a>
-        </li>
-        <li class="collection-item">
-            {% if turma.alunos.all.count > 0 %}
-                 <table class="striped centered">
-                     <thead>
-                     <tr>
-                         <th>Nome</th>
-                         <th>Matricula Curso</th>
-                         <th>CPF</th>
-                     </tr>
-                     </thead>
-
-                     <tbody>
-                         {% for aluno in turma.alunos.all %}
-                             <tr>
-                                 <td>{{ aluno.nome }}</td>
-                                 <td>{{ aluno.matricula_curso }}</td>
-                                 <td>{{ aluno.cpf }}</td>
-                             </tr>
-                         {% endfor %}
-                     </tbody>
-                 </table>
-            {% else %}
-            <div class="card center" style="padding: 20px">
-                <b>Nesta turma ainda nao possui alunos!</b>
+            <div class="col s3 center">
+                <b class="title">Disciplina</b>
+                <br>
+                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.disciplina }}<br>
+                </p>
             </div>
-            {% endif %}
-        </li>
+            <div class="col s3 center">
+                <b class="title">Carga Horária</b>
+                <br>
+                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.carga_horaria }}h<br>
+                </p>
+            </div>
+            <div class="col s3 center">
+                <b class="title">Curso</b>
+                <br>
+                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.curso }}<br>
+                </p>
+            </div>
+        </div>
 
-    </ul>
+        </p>
+
+    </li>
+    <li class="collection-item">
+        {% if turma.alunos.all.count > 0 %}
+        <table class="striped centered">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Matricula Curso</th>
+                <th>CPF</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for aluno in turma.alunos.all %}
+            <tr>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.matricula_curso }}</td>
+                <td>{{ aluno.cpf }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="card center" style="padding: 20px">
+            <b>Nesta turma ainda nao possui alunos!</b>
+        </div>
+        {% endif %}
+    </li>
+</ul>
 
 
-  <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red">
+<div class="fixed-action-btn">
+    <a href="{% url 'matricula_aluno' turma.id %}" class="btn-floating btn-large tean">
         <i class="fas fa-plus"></i>
-      </a>
-  </div>
+    </a>
+</div>
 
 {% endblock %}
