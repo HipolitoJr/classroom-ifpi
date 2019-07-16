@@ -6,7 +6,7 @@ import re
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Horario, MatriculaDisciplinar
 from frequencia.models import Registro, Frequencia
-from horarios.models import AusenciaInteresse, DeclaracaoAusencia
+from qr_code.models import IPAdress
 
 
 def get_net_config():
@@ -76,40 +76,48 @@ def horario_normal():
     return horario[0]
 
 
-def turma_alternativa():
-    horario_vago = DeclaracaoAusencia.objects.filter(horario=horario_normal())
-    prof_substituto = AusenciaInteresse.objects.filter(ausencia=horario_vago[0].id)
-    return prof_substituto
-
-
 def home(request):
     ip = get_ip_wifi()
     link = "http://" + ip + ":8000/qr/registered"
     return render(request, 'qr_code/qr_code.html', {'link': link})
 
 
-def get_alunos(request):
+def get_freq():
     try:
         freq = Frequencia.objects.filter(data=datetime.date.today(),
                                          hora_inicio__lte=datetime.datetime.now().time(),
                                          hora_fim__gte=datetime.datetime.now().time())
-        matriculas = freq[0].disciplina.matricula_disciplinar.all()
+        return freq[0]
     except IndexError:
         return redirect('no_has_reg')
+
+
+def get_alunos(request):
+    freq = get_freq()
+    matriculas = freq.disciplina.matricula_disciplinar.all()
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
-def ip_repetido(request):
+def ip_blocked(request):
+    return render(request, 'qr_code/qr_code_ip_blocked.html')
+
+
+def ip_repetido(request, matricula):
+    rep = False
+    freq = get_freq()
+    IP = IPAdress()
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip_cliente = x_forwarded_for.split(',')[0]
     else:
         ip_cliente = request.META.get('REMOTE_ADDR')
-    ip_list = []
-    if ip_cliente in ip_list:
-        print("Voce nao pode responder novamente a chamada")
+    if ip_cliente :
+        return redirect('ip_blocked')
     else:
-        ip_list.append(ip_cliente)
+        IP.ip = ip_cliente
+        IP.frequencia = freq
+        IP.matricula_disciplinar = matricula
+    return rep
 
 
 def no_has_reg(request):
@@ -117,23 +125,18 @@ def no_has_reg(request):
 
 
 def registrar_presenca(matricula):
-    try:
-        freq = Frequencia.objects.filter(data=datetime.date.today(),
-                                         hora_inicio__lte=datetime.datetime.now().time(),
-                                         hora_fim__gte=datetime.datetime.now().time())
-        if freq[0].ativa is False:
-            salvo = False
-        else:
-            reg = Registro()
-            reg.status = True
-            reg.frequencia = freq[0]
-            reg.aluno = freq[0].disciplina.matricula_disciplinar.get(id=matricula)
-            reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
-            reg.save()
-            salvo = True
-        return salvo
-    except IndexError:
-        return redirect('no_has_reg')
+    freq = get_freq()
+    if freq.ativa is False:
+        salvo = False
+    else:
+        reg = Registro()
+        reg.status = True
+        reg.frequencia = freq
+        reg.aluno = freq.disciplina.matricula_disciplinar.get(id=matricula)
+        reg.peso = freq.hora_fim.hour - freq.hora_inicio.hour + 1
+        reg.save()
+        salvo = True
+    return salvo
 
 
 def register_expired(request):
@@ -145,6 +148,7 @@ def register(request):
     if request.method == "POST":
         mat = request.POST.get("id_matricula")
     matricula = MatriculaDisciplinar.objects.get(id=mat)
+    ip_repetido(request, matricula)
     reg = registrar_presenca(mat)
     if reg is False:
         return redirect('register_expired')
