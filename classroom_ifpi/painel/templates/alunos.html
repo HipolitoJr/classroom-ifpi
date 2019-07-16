@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+
+    <div class="card-title" align="center">
+        <h5 class="grey-text">Alunos Cadastrados</h5>
+    </div>
+    <div class="card-content">
+        <div class="collection">
+        {% for aluno in alunos %}
+            <a href="#" class="collection-item"><span class="badge">{{ aluno.curso }}</span>{{ aluno.nome }}</a>
+        {% endfor %}
+        </div>
+    </div>
+
+
+
+
+<div class="fixed-action-btn">
+  <a href="{% url 'add_aluno' %}" class="btn-floating btn-large red darken-4">
+    <i class="fas fa-plus"></i>
+  </a>
+</div>
+{% endblock %}

@@ -74,6 +74,8 @@ urlpatterns = [
     path('painel/', painel_views.painel, name = 'painel'),
     path('painel/turmas', painel_views.list_turmas, name = 'turmas'),
     path('cadastro/professor/', painel_views.CadastrarProfessorView.as_view(), name = 'add_professor'),
+    path('painel/aluno/novo', painel_views.CadastrarAlunoView.as_view(), name = 'add_aluno'),
+    path('painel/alunos', painel_views.list_alunos, name = 'alunos'),
     path('login/', painel_views.login, name = 'login'),
     path('logout/', painel_views.logout, name = 'logout'),
 ]

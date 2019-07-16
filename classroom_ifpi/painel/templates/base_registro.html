@@ -20,12 +20,12 @@
             <div class="nav-wrapper">
                 <a href="#">Classroom-IFPI</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'add_professor' %}">Cadastre-se</a></li>
                 </ul>
             </div>
         </nav>
-        <div class="valign-wrapper" style="width:100%;height:80%;position: absolute;">
+        <div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
             <div class="valign" style="width:100%;">
                 <div class="container" style="heigth:100%">
                     {% block container %}
