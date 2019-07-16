@@ -14,27 +14,23 @@ class DeclaracaoAusencia(models.Model):
     horario = models.ForeignKey(Horario, null=False, blank=False, on_delete=models.CASCADE,
                                 related_name='declaracao_ausencia')
     data_falta = models.DateField()
-    data_declaracao = models.DateField()
-    def __str__(self):
-        return str(self.data_falta)
+    data_declaracao = models.DateField(auto_now_add=True)
+    count = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.professor.usuario.first_name + " - " + self.justificativa
+        return self.professor.nome + " - " + str(self.data_falta)
 
 
 class DeclaracaoInteresse(models.Model):
-    declarador = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE,
+    interessado = models.ForeignKey(Professor,on_delete=models.CASCADE, related_name='interessado', default='')
+    turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE,
                                    related_name='declaracao_interessse')
-    data_declaracao = models.DateField()
+    data_declaracao = models.DateField(auto_now_add=True)
+    count = models.IntegerField(default=0)
     def __str__(self):
-        return self.declarador.ministrante.usuario.username
-
-    def __str__(self):
-        return self.declarador.ministrante.usuario.first_name + " - " + str(self.data_declaracao)
-
+        return self.interessado.nome
 
 class AusenciaInteresse(models.Model):
-
     ausencia = models.ForeignKey(DeclaracaoAusencia, null=False, blank=False, on_delete=models.CASCADE,
                                  related_name='ausencia_interesse')
     hora_inicio = models.TimeField()
@@ -42,6 +38,6 @@ class AusenciaInteresse(models.Model):
     status = models.BooleanField()
     interessado = models.ForeignKey(DeclaracaoInteresse,  null=False, blank=False, on_delete=models.CASCADE,
                                     related_name='ausencia_interesse')
-
+    count = models.IntegerField(default=0)
     def __str__(self):
-        return self.ausencia.professor.usuario.first_name + " - " + self.interessado.declarador.ministrante.usuario.first_name
+        return self.ausencia.declarador.ministrante

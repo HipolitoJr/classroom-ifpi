@@ -9,7 +9,7 @@ class DeclaracaoAusenciaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DeclaracaoAusencia.objects.all()
     serializer_class = DeclaracaoAusenciaSerializer
     serializer_detail_class = DeclaracaoAusenciaSerializer
-    name = 'declaracao_ausencia-detail'
+    name = 'declaracaoausencia-detail'
 
 
 class DeclaracaoAusenciaList(generics.ListCreateAPIView):
@@ -23,30 +23,30 @@ class DeclaracaoAusenciaList(generics.ListCreateAPIView):
             pass
         return queryset
     serializer_class = DeclaracaoAusenciaSerializer
-    name = 'declaracao_ausencia-list'
+    name = 'declaracaoausencia-list'
 
 
 class AusenciaInteresseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AusenciaInteresse.objects.all()
     serializer_class = AusenciaInteresseSerializer
     serializer_detail_class = AusenciaInteresseSerializer
-    name = 'ausencia_interesse-detail'
+    name = 'ausenciainteresse-detail'
 
 
 class AusenciaInteresseList(generics.ListCreateAPIView):
     queryset = AusenciaInteresse.objects.all()
     serializer_class = AusenciaInteresseSerializer
-    name = 'ausencia_interesse-list'
+    name = 'ausenciainteresse-list'
 
 
 class DeclaracaoInteresseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DeclaracaoInteresse.objects.all()
     serializer_class = DeclaracaoInteresseSerializer
     serializer_detail_class = DeclaracaoInteresseSerializer
-    name = 'declaracao_interesse-detail'
+    name = 'declaracaointeresse-detail'
 
 
 class DeclaracaoInteresseList(generics.ListCreateAPIView):
     queryset = DeclaracaoInteresse.objects.all()
     serializer_class = DeclaracaoInteresseSerializer
-    name = 'declaracao_interesse-list'
+    name = 'declaracaointeresse-list'

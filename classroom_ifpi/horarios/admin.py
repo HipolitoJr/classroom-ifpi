@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from horarios.models import DeclaracaoInteresse, DeclaracaoAusencia, AusenciaInteresse
+from horarios.models import *
 
 @admin.register(DeclaracaoAusencia)
 class DeclaracaoAusenciaAdmin(admin.ModelAdmin):

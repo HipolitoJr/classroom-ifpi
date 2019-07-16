@@ -6,7 +6,7 @@ from .serializers import *
 from .models import *
 from horarios import views as horario_views
 from frequencia import views as frequencia_views
-
+from django_filters import rest_framework as filters
 
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
@@ -38,6 +38,12 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.set_password(instance.password)
+        instance.save()
     name = 'user-list'
 
 
@@ -51,6 +57,10 @@ class AlunoDetail(generics.RetrieveUpdateDestroyAPIView):
 class AlunoList(generics.ListCreateAPIView):
     queryset = Aluno.objects.all()
     serializer_class = AlunoSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
+    def perform_create(self, serializer):
+        serializer.save(nome=self.request.POST.get('usuario'))
     name = 'aluno-list'
 
 
@@ -64,6 +74,10 @@ class ProfessorDetail(generics.RetrieveUpdateDestroyAPIView):
 class ProfessorList(generics.ListCreateAPIView):
     queryset = Professor.objects.all()
     serializer_class = ProfessorSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
+    def perform_create(self, serializer):
+        serializer.save(nome=self.request.POST.get('usuario'))
     name = 'professor-list'
 
 
@@ -77,6 +91,8 @@ class DisciplinaDetail(generics.RetrieveUpdateDestroyAPIView):
 class DisciplinaList(generics.ListCreateAPIView):
     queryset = Disciplina.objects.all()
     serializer_class = DisciplinaSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
     name = 'disciplina-list'
 
 
@@ -90,6 +106,8 @@ class CursoDetail(generics.RetrieveUpdateDestroyAPIView):
 class CursoList(generics.ListCreateAPIView):
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
     name = 'curso-list'
 
 
@@ -103,6 +121,8 @@ class TurmaDetail(generics.RetrieveUpdateDestroyAPIView):
 class TurmaList(generics.ListCreateAPIView):
     queryset = Turma.objects.all()
     serializer_class = TurmaSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
     name = 'turma-list'
 
 
@@ -110,13 +130,15 @@ class MatriculaDisciplinarDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MatriculaDisciplinar.objects.all()
     serializer_class = MatriculaDisciplinarSerializer
     serializer_detail_class = MatriculaDisciplinarSerializer
-    name = 'matricula-disciplinar-detail'
+    name = 'matriculadisciplinar-detail'
 
 
 class MatriculaDisciplinarList(generics.ListCreateAPIView):
     queryset = MatriculaDisciplinar.objects.all()
     serializer_class = MatriculaDisciplinarSerializer
-    name = 'matricula-disciplinar-list'
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
+    name = 'matriculadisciplinar-list'
 
 
 class HorarioDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -129,4 +151,7 @@ class HorarioList(generics.ListCreateAPIView):
     queryset = Horario.objects.all()
     serializer_class = HorarioSerializer
     serializer_detail_class = HorarioSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = '__all__'
     name = 'horario-list'
+

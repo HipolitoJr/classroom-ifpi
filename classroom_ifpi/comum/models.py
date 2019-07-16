@@ -20,12 +20,13 @@ class Curso(models.Model):
 
 
 class Professor(models.Model):
+    nome = models.CharField(max_length=100)
     matricula = models.CharField(max_length=15, null=False, blank=False)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='professor')
     cpf = models.CharField(max_length=14, null=False, blank=False)
 
     def __str__(self):
-        return self.usuario.first_name + self.usuario.last_name
+        return self.nome
 
 
 class Disciplina(models.Model):
@@ -37,13 +38,14 @@ class Disciplina(models.Model):
 
 
 class Aluno(models.Model):
+    nome = models.CharField(max_length=100, default='', null=True)
     matricula_curso = models.CharField(max_length=12, null=False, blank=False)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='aluno')
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usuario')
     cpf = models.CharField(max_length=14, null=False, blank=False)
-    curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='aluno')
+    curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='cursos')
 
     def __str__(self):
-        return self.usuario.first_name+" "+self.usuario.last_name
+        return self.nome
 
 
 class Turma(models.Model):
@@ -54,7 +56,6 @@ class Turma(models.Model):
     carga_horaria_ministrada = models.IntegerField(default=0)
     curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
     alunos = models.ManyToManyField(Aluno, through='MatriculaDisciplinar')
-
     def __str__(self):
         return self.especificacao_disciplina
 
@@ -74,7 +75,7 @@ class MatriculaDisciplinar(models.Model):
     situacao = models.CharField(max_length=1, choices=SITUACAO_CHOICES, null=False, blank=False, default='C')
 
     def __str__(self):
-        return self.aluno.usuario.first_name + " " + self.aluno.usuario.last_name + " - " + self.disciplina.especificacao_disciplina
+        return self.aluno.nome+  " - " + self.disciplina.especificacao_disciplina
 
 
 class Horario(models.Model):
@@ -93,4 +94,4 @@ class Horario(models.Model):
     turma = models.ForeignKey(Turma, null=False, blank=False, on_delete=models.CASCADE, related_name='horario')
 
     def __str__(self):
-        return self.turma.ministrante.usuario.first_name + " - " + self.dia_semana
+        return self.dia_semana + " de " + str(self.hora_inicio)+' as '+str(self.hora_fim)
