@@ -105,7 +105,7 @@ class MatricularAlunoView(View):
 
     def get(self, request, turma_id):
         turma = Turma.objects.get(id=turma_id)
-        alunos = Aluno.objects.all()
+        alunos = Aluno.objects.filter(curso=turma.curso)
         return render(request,
                       'cadastro_matricula.html',
                       {'titulo': 'Matricular Aluno',

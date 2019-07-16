@@ -1,71 +1,68 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block 'body' %}
+<div style="padding-right: 20px;">
 
-<ul class="collection">
-    <li class="collection-item avatar">
-        <div class="row">
-            <div class="col s3 center">
-                <p><b class="title">Nome turma</b></p>
-                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.especificacao_disciplina }}<br>
-            </div>
-            <div class="col s3 center">
-                <b class="title">Disciplina</b>
-                <br>
-                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.disciplina }}<br>
-                </p>
-            </div>
-            <div class="col s3 center">
-                <b class="title">Carga Horária</b>
-                <br>
-                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.carga_horaria }}h<br>
-                </p>
-            </div>
-            <div class="col s3 center">
-                <b class="title">Curso</b>
-                <br>
-                <p style="font-size: 16pt; margin-top: 8px;">{{ turma.curso }}<br>
-                </p>
-            </div>
+    <div class="row" style="margin-top: 14px;">
+        <div class="col s3 center">
+            <b class="title">Nome turma</b>
+            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.especificacao_disciplina }}<br>
         </div>
-
-        </p>
-
-    </li>
-    <li class="collection-item">
-        {% if turma.alunos.all.count > 0 %}
-        <table class="striped centered">
-            <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Matricula Curso</th>
-                <th>CPF</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            {% for aluno in turma.alunos.all %}
-            <tr>
-                <td>{{ aluno.nome }}</td>
-                <td>{{ aluno.matricula_curso }}</td>
-                <td>{{ aluno.cpf }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <div class="card center" style="padding: 20px">
-            <b>Nesta turma ainda nao possui alunos!</b>
+        <div class="col s3 center">
+            <b class="title">Disciplina</b>
+            <br>
+            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.disciplina }}<br>
+            </p>
         </div>
-        {% endif %}
-    </li>
-</ul>
+        <div class="col s3 center">
+            <b class="title">Carga Horária</b>
+            <br>
+            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.carga_horaria }}h<br>
+            </p>
+        </div>
+        <div class="col s3 center">
+            <b class="title">Curso</b>
+            <br>
+            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.curso }}<br>
+            </p>
+        </div>
+    </div>
 
+    <hr>
 
-<div class="fixed-action-btn">
-    <a href="{% url 'matricula_aluno' turma.id %}" class="btn-floating btn-large tean">
-        <i class="fas fa-plus"></i>
-    </a>
+    </p>
+
+    {% if turma.alunos.all.count > 0 %}
+    <table class="striped centered" style="margin: 8px;">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Matricula Curso</th>
+            <th>CPF</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for aluno in turma.alunos.all %}
+        <tr>
+            <td>{{ aluno.nome }}</td>
+            <td>{{ aluno.matricula_curso }}</td>
+            <td>{{ aluno.cpf }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="card center" style="padding: 20px">
+        <b>Nesta turma ainda nao possui alunos!</b>
+    </div>
+    {% endif %}
+
+    <div class="fixed-action-btn">
+        <a href="{% url 'matricula_aluno' turma.id %}" class="btn-floating btn-large tean">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
 </div>
-
 {% endblock %}
