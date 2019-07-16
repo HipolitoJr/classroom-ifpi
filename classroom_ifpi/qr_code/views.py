@@ -89,9 +89,13 @@ def home(request):
 
 
 def get_alunos(request):
-    freq = Frequencia.objects.filter(data=datetime.date.today(), hora_inicio__lte=datetime.datetime.now().time(),
-                                     hora_fim__gte=datetime.datetime.now().time())
-    matriculas = freq[0].disciplina.matricula_disciplinar.all()
+    try:
+        freq = Frequencia.objects.filter(data=datetime.date.today(),
+                                         hora_inicio__lte=datetime.datetime.now().time(),
+                                         hora_fim__gte=datetime.datetime.now().time())
+        matriculas = freq[0].disciplina.matricula_disciplinar.all()
+    except IndexError:
+        return redirect('no_has_reg')
     return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
 
 
@@ -108,21 +112,28 @@ def ip_repetido(request):
         ip_list.append(ip_cliente)
 
 
+def no_has_reg(request):
+    return render(request, 'qr_code/qr_code_no_has_reg.html')
+
+
 def registrar_presenca(matricula):
-    freq = Frequencia.objects.filter(data=datetime.date.today(),
-                                     hora_inicio__lte=datetime.datetime.now().time(),
-                                     hora_fim__gte=datetime.datetime.now().time())
-    if freq[0].ativa is False:
-        salvo = False
-    else:
-        reg = Registro()
-        reg.status = True
-        reg.frequencia = freq[0]
-        reg.aluno = freq[0].disciplina.matricula_disciplinar.get(id=matricula)
-        reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
-        reg.save()
-        salvo = True
-    return salvo
+    try:
+        freq = Frequencia.objects.filter(data=datetime.date.today(),
+                                         hora_inicio__lte=datetime.datetime.now().time(),
+                                         hora_fim__gte=datetime.datetime.now().time())
+        if freq[0].ativa is False:
+            salvo = False
+        else:
+            reg = Registro()
+            reg.status = True
+            reg.frequencia = freq[0]
+            reg.aluno = freq[0].disciplina.matricula_disciplinar.get(id=matricula)
+            reg.peso = freq[0].hora_fim.hour - freq[0].hora_inicio.hour + 1
+            reg.save()
+            salvo = True
+        return salvo
+    except IndexError:
+        return redirect('no_has_reg')
 
 
 def register_expired(request):
