@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
@@ -17,6 +18,8 @@ from painel.forms import CadastrarProfessorForm
 
 def painel(request):
     return render(request, 'base.html')
+
+
 
 class CadastrarProfessorView(View):
 
@@ -58,13 +61,21 @@ class CadastrarProfessorView(View):
         messages.error(request, 'Algo deu errado.')
         return render(request, 'cadastro_professor.html', {'form': form} )
 
-
+@login_required
 def list_turmas(request):
     turmas = get_turmas(request)
     return render(request,
                   'turmas.html',
                   {'titulo': 'Suas Turmas',
                    'turmas': turmas})
+
+
+def turma_detalhe(request, turma_id):
+    turma = Turma.objects.get(id=turma_id)
+    return render(request,
+                  'turma_detalhe.html',
+                  {'titulo': turma.especificacao_disciplina,
+                   'turma': turma})
 
 
 def get_turmas(request):

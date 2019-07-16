@@ -94,7 +94,7 @@ DATABASES = {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
        'NAME': 'classroomdb',
        'USER': 'postgres',
-       'PASSWORD': 'postgres',
+       'PASSWORD': 'root',
        'HOST': '127.0.0.1',
        'PORT': '5432',
   }

@@ -14,18 +14,23 @@
             {% for turma in turmas %}
                 <div class="col s4">
                     <br>
-                    <div class="card horizontal">
-                      <div class="card-stacked">
-                        <div class="card-content">
-                          <p class="flow-text">{{ turma.especificacao_disciplina }} - {{ turma.carga_horaria }}h</p>
-                            <p>{{ turma.curso }} - {{ turma.ministrante }}</p>
+                    <div class="card horizontal ">
+                        <div class="card-image center green">
+                            <img src="{% static 'img/google_classroom.png' %}" style="width: 170px; height: 140px;">
                         </div>
-                        <div class="card-action">
-                          <a href="#">Ver detalhes</a>
+                        <div class="card-stacked ">
+                            <div class="card-content">
+                                <p class="flow-text">{{ turma.especificacao_disciplina }} - {{ turma.carga_horaria}}h</p>
+                                <p>{{ turma.curso }} - {{ turma.ministrante }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a onclick="window.open('{% url 'turma_detalhe' turma.id %}', '_blank', 'location=yes,height=1024,width=768,scrollbars=yes,status=yes');">
+                                    Share Page
+                                </a>
+                                <a href="{% url 'turma_detalhe' turma.id %}">Ver detalhes</a>
+                            </div>
                         </div>
-                      </div>
                     </div>
-
                 </div>
             {% endfor %}
         </div>
@@ -33,7 +38,7 @@
     </div>
 
   <div class="fixed-action-btn">
-      <a class="btn-floating btn-large tean">
+      <a class="btn-floating btn-large tean" onclick="window.open('#', '_blank', 'location=yes,height=1024,width=768,scrollbars=yes,status=yes');">
         <i class="fas fa-plus"></i>
       </a>
   </div>
