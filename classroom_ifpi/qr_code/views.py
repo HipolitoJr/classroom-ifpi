@@ -36,7 +36,7 @@ def get_ip_wifi():
     return ip
 
 
-def read_windows(lines):
+def read_linux(lines):
     ip = ""
     for l in range(len(lines)):
         if "wlp8s0" in lines[l]:
@@ -48,7 +48,7 @@ def read_windows(lines):
     return ip
 
 
-def read_linux(lines):
+def read_windows(lines):
     ip = ""
     for l in range(len(lines)):
         if "Adaptador de Rede sem Fio Wi-Fi:" in lines[l]:
@@ -102,21 +102,34 @@ def ip_blocked(request):
     return render(request, 'qr_code/qr_code_ip_blocked.html')
 
 
+def aluno_registered(matricula):
+    reg = False
+    freq = get_freq()
+    registros = Registro.objects.filter(frequencia=freq.id)
+    for r in registros:
+        if r.aluno == matricula:
+            return True
+    return reg
+
+
 def ip_repetido(request, matricula):
     rep = False
     freq = get_freq()
+    reg_ip = IPAdress.objects.filter(frequencia=freq)
     IP = IPAdress()
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip_cliente = x_forwarded_for.split(',')[0]
     else:
         ip_cliente = request.META.get('REMOTE_ADDR')
-    if ip_cliente :
-        return redirect('ip_blocked')
-    else:
+    for i in reg_ip:
+        if i.ip == ip_cliente:
+            rep = True
+    if rep is False:
         IP.ip = ip_cliente
         IP.frequencia = freq
         IP.matricula_disciplinar = matricula
+        IP.save()
     return rep
 
 
@@ -148,10 +161,12 @@ def register(request):
     if request.method == "POST":
         mat = request.POST.get("id_matricula")
     matricula = MatriculaDisciplinar.objects.get(id=mat)
-    ip_repetido(request, matricula)
-    reg = registrar_presenca(mat)
-    if reg is False:
-        return redirect('register_expired')
+    if ip_repetido(request, matricula) is True or aluno_registered(matricula) is True:
+        return redirect('ip_blocked')
+    else:
+        reg = registrar_presenca(mat)
+        if reg is False:
+            return redirect('register_expired')
     aluno = matricula.aluno
     response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
     response.set_cookie('aluno', aluno)
@@ -162,10 +177,14 @@ def register(request):
 def registered(request):
     if 'aluno' in request.COOKIES:
         aluno = request.COOKIES['aluno']
-        matricula = request.COOKIES['matricula']
-        reg = registrar_presenca(matricula)
-        if reg is False:
-            return redirect('register_expired')
+        mat = request.COOKIES['matricula']
+        matricula = MatriculaDisciplinar.objects.get(id=mat)
+        if ip_repetido(request, matricula) is True or aluno_registered(matricula) is True:
+            return redirect('ip_blocked')
+        else:
+            reg = registrar_presenca(mat)
+            if reg is False:
+                return redirect('register_expired')
     else:
         return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
