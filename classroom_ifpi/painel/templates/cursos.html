@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+<div style="padding-right: 20px;">
+    <div class="row">
+        <ul class="col s8 offset-s2 collection">
+            {% for curso in cursos %}
+            <li class="collection-item avatar">
+                <i class="material-icons circle green">
+                    <i class="fas fa-graduation-cap"></i>
+                </i>
+                <b class="title">{{ curso.descricao }}</b>
+                <p>{{ curso.get_tipo_display }}<br>
+                </p>
+                <a href="#!" class="secondary-content"><i class="material-icons">
+                    <i class="fas fa-star"></i>
+                </i></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+<div class="fixed-action-btn">
+    <a href="{% url 'add_curso' %}"
+       class="btn-floating btn-large red darken-4">
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+<div class="row" style="margin: 12px; padding-bottom: 25%">
+    <form class="col s8 offset-s2 center" method="post" action="{% url 'add_turma' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="row">
+                <div class="input-field col s6">
+                    <select name="ministrante" class="validate">
+                        {% for ministrante in professores %}
+                        <option value="{{ ministrante.id }}">{{ ministrante }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Professor</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="carga_horaria" name="carga_horaria" type="number" class="validate" required>
+                    <label for="carga_horaria">Carga Horaria</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <select name="curso" class="validate">
+                        {% for curso in cursos %}
+                        <option value="{{ curso.id }}">{{ curso }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Curso</label>
+                </div>
+
+                <div class="input-field col s6">
+                    <select name="disciplina" class="validate">
+                        {% for disciplina in disciplinas %}
+                        <option value="{{ disciplina.id }}">{{ disciplina }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Disciplina</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Salvar</button>
+        <button type="reset" class="btn red">Voltar</button>
+    </form>
+</div>
+
+{% endblock %}

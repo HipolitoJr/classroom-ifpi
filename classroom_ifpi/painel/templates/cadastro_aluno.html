@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+<div class="container" style="padding-bottom: 15%">
+    <div class="col s8 m8 offset-m2">
+        <form method="post" action="{% url 'add_aluno' %}">
+          {% csrf_token %}
+              <div align="center" class="card-title">
+                  <h5 class="grey-text">Cadastro de Aluno</h5>
+              </div>
+
+              <div class="row">
+                  <div class="input-field col s6">
+                    <input name="first_name" type="text" class="validate" required>
+                    <label>Nome</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input name="last_name" type="text" class="validate" required>
+                    <label>Sobrenome</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input name="matricula_curso" type="text" class="validate" required>
+                    <label>Matricula Curso</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input name="email" type="email" class="validate" required>
+                    <label>Email</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <select name="curso" class="validate" required>
+                      {% for curso in cursos %}
+                        <option value="{{ curso.id }}">{{ curso }}</option>
+                      {% endfor %}
+                    </select>
+                    <label>Curso</label>
+                  </div>
+                  <div class="input-field col s12" align="center">
+                      <button class="btn waves-effect waves-light" type="submit">Salvar</button>
+                      <button class="btn waves-effect red darken-4 waves-light" type="reset">Cancelar</button>
+                  </div>
+              </div>
+
+              <br>
+        </form>
+  </div>
+</div>
+{% endblock %}

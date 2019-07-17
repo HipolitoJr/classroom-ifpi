@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col s2 center">
+                <b class="title">Segunda</b>
+            </div>
+            <div class="col s2 center">
+                <b class="title">Terça</b>
+            </div>
+            <div class="col s2 center">
+                <b class="title">Quarta</b>
+            </div>
+            <div class="col s2 center">
+                <b class="title">Quinta</b>
+            </div>
+            <div class="col s2 center">
+                <b class="title">Sexta</b>
+            </div>
+        </div>
+        {% for horario in horarios %}
+        <div class="row">
+
+            {% if horario.dia_semana == 'SEGUNDA' %}
+            <div class="col s2 center">
+                <div class="col s12">
+                  <div class="card-panel green">
+                    <span class="white-text">{{ horario.turma }}</span>
+                    <span class="white-text">Das {{ horario.hora_inicio }}hrs à {{ horario_hora_fim }}hrs</span>
+                  </div>
+                </div>
+            </div>
+            {% elif horario.dia_semana == 'TERCA' %}
+            <div class="col s2 center">
+                <div class="col s12">
+                  <div class="card-panel green">
+                    <span class="white-text">{{ horario.turma }}</span>
+                    <span class="white-text">Das {{ horario.hora_inicio }}hrs à {{ horario_hora_fim }}hrs</span>
+                  </div>
+                </div>
+            </div>
+            {% elif horario.dia_semana == 'QUARTA' %}
+            <div class="col s2 center">
+                <div class="col s12">
+                  <div class="card-panel green">
+                    <span class="white-text">{{ horario.turma }}</span>
+                    <span class="white-text">Das {{ horario.hora_inicio }}hrs à {{ horario_hora_fim }}hrs</span>
+                  </div>
+                </div>
+            </div>
+            {% elif horario.dia_semana == 'QUINTA' %}
+            <div class="col s2 center">
+                <div class="col s12">
+                  <div class="card-panel green">
+                    <span class="white-text">{{ horario.turma }}</span>
+                    <span class="white-text">Das {{ horario.hora_inicio }}hrs à {{ horario_hora_fim }}hrs</span>
+                  </div>
+                </div>
+            {% else %}
+            <div class="col s2 center">
+                <div class="col s12">
+                  <div class="card-panel green">
+                    <span class="white-text">{{ horario.turma }}</span>
+                    <span class="white-text">Das {{ horario.hora_inicio }}hrs à {{ horario_hora_fim }}hrs</span>
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+
+  <div class="fixed-action-btn">
+      <a href="{% url 'add_horario' %}" class="btn-floating btn-large tean">
+        <i class="fas fa-plus"></i>
+      </a>
+  </div>
+{% endblock %}

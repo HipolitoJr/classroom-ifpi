@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+
+    <div class="card-title" align="center">
+        <h5 class="grey-text">Alunos Cadastrados</h5>
+    </div>
+    <div class="card-content">
+        {% if alunos.all.count > 0 %}
+        <table class="striped centered">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Matricula Curso</th>
+                <th>Curso</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.matricula_curso }}</td>
+                <td>{{ aluno.curso }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="card center" style="padding: 20px">
+            <b>Nesta turma ainda nao possui alunos!</b>
+        </div>
+        {% endif %}
+    </div>
+
+
+<div class="fixed-action-btn">
+  <a href="{% url 'add_aluno' %}"
+     class="btn-floating btn-large red darken-4">
+    <i class="fas fa-plus"></i>
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base_registro.html" %}
+
+{% block container %}
+<!--
+<div class="row">
+    {% include 'alert_mensagem.html' %}
+</div>-->
+<div class="row">
+    <div class="col s12 m8 offset-m2">
+      <div class="card">
+        <form method="post" action="{% url 'add_professor' %}">
+          {% csrf_token %}
+          <div class="card-content">
+              <div align="center" class="card-title">
+                  <h5 class="grey-text">Cadastro de Professor</h5>
+              </div>
+
+              <div class="row">
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix fas fa-user"></i>
+                    <input name="first_name" type="text" class="validate">
+                    <label>Nome</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix fas fa-user"></i>
+                    <input name="last_name" type="text" class="validate">
+                    <label>Sobrenome</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix fas fa-id-card"></i>
+                    <input name="matricula" type="text" class="validate">
+                    <label>Matricula</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix fas fa-envelope"></i>
+                    <input name="email" type="email" class="validate">
+                    <label>Email</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix fas fa-at"></i>
+                    <input name="username" type="text" class="validate">
+                    <label>Nome de Usuário</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix fas fa-lock"></i>
+                    <input name="password" type="password" class="validate">
+                    <label>Senha</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <i class="material-icons prefix fas fa-lock"></i>
+                    <input name="confirma_password" type="password" class="validate">
+                    <label>Confirmar Senha</label>
+                  </div>
+              </div>
+          </div>
+          <div align="center" class="card-action">
+              <button class="btn waves-effect waves-light" type="submit">Salvar</button>
+              <button class="btn waves-effect red darken-4 waves-light" type="reset">Cancelar</button>
+          </div>
+          <div align="center" class="card-content">
+               <a href="{% url 'login' %}">Já tenho conta. Entrar!</a>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock container %}

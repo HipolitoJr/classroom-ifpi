@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classroom IFPI</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+
+    <!-- jQuery is required by Materialize to function -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+
+
+</head>
+<body class="green lighten-5">
+        <nav class="red darken-4" style="padding-left: 10px;">
+            <div class="nav-wrapper">
+                <a href="{% url 'index' %}">Classroom-IFPI</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'add_professor' %}">Cadastre-se</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+            <div class="valign" style="width:100%;">
+                <div class="container" style="heigth:100%">
+                    {% block container %}
+                        <div class="row">
+                           <div class="col s10 offset-s1">
+                                <div class="card large">
+                                    <div class="card-image">
+                                        <img src="{% static 'img/index_classroom.png' %}" style="width: 100%; height: 100%">
+                                        <span class="card-title red-text">Bem vindo ao Classroom-IFPI!</span>
+                                    </div>
+                                    <div class="card-content red darken-4">
+                                       <p align="justify" class="white-text">O Classroom-IFPI é um ambiente para gerenciamento de atividades em sala de aulas.
+                                       Desenvolvido para usuários Professores, o Classroom-IFPI possui dois módulos de acesso: Classroom App e Classroom Sistema Web.</p>
+                                        <br>
+                                       <p align="justify" class="white-text">Juntos estes módulos gerenciam horários, disciplinas e turmas de professores e automatiza o processo de realização de frequências dos alunos.
+                                       Este é o módulo Web, desenvolvido para cadastros gerenciais das turmas, conheça o nosso app, baixe agora e conheça nossas funcionalidades. </p>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                          <div class="col s10 offset-s1">
+                            <div class="col s4">
+                                <br>
+                                <div class="card horizontal ">
+                                    <div class="card-image center">
+                                        <img src="{% static 'img/horario.png' %}" style="width: 170px; height: 140px;">
+                                    </div>
+                                    <div class="card-stacked ">
+                                        <div class="card-content green darken-3">
+                                            <p align="center" class="white-text">Gerenciamento de Horários</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <br>
+                                <div class="card horizontal ">
+                                    <div class="card-image center">
+                                        <img src="{% static 'img/turma.png' %}" style="width: 170px; height: 140px;">
+                                    </div>
+                                    <div class="card-stacked ">
+                                        <div class="card-content green darken-3">
+                                            <p align="center" class="white-text">Gerenciamento de Turmas</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <br>
+                                <div class="card horizontal ">
+                                    <div class="card-image center">
+                                        <img src="{% static 'img/frequencia.png' %}" style="width: 170px; height: 140px;">
+                                    </div>
+                                    <div class="card-stacked ">
+                                        <div class="card-content green darken-3">
+                                            <p  align="center" class="white-text">Gerenciamento de Frequências</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% endblock container %}
+                </div>
+            </div>
+        </div>
+</body>
+</html>

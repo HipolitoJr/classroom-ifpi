@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classroom IFPI</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+
+    <!-- jQuery is required by Materialize to function -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+
+
+</head>
+<body>
+
+<ul id="slide-out" class="side-nav fixed">
+    <div class="red darken-4 center white-text" style="padding: 10px">
+        <i class="fas fa-users fa-fw fa-5x"></i>
+        <h5>Classroom IFPI</h5>
+    </div>
+    <li>
+        <a href="{% url 'turmas' %}">
+            <i class="fas fa-fw fa-chalkboard-teacher"></i>
+            Turmas
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'disciplinas' %}">
+            <i class="fas fa-fw fa-book"></i>
+            Disciplinas
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'cursos' %}">
+            <i class="fas fa-fw fa-graduation-cap"></i>
+            Cursos
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'professores' %}">
+            <i class="fas fa-fw fa-user-tie"></i>
+            Profesores
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'horarios' %}">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            Horários
+        </a>
+    </li>
+
+    <hr>
+
+    <li>
+        <a href="{% url 'alunos' %}">
+            <i class="fas fa-fw fa-user-graduate"></i>
+            Alunos
+        </a>
+    </li>
+
+
+</ul>
+
+<nav class="red darken-4" style="padding-left: 280px;">
+    <div class="nav-wrapper">
+        <a href="#" style="font-size: 20pt">{{ titulo }}</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li>
+                <a href="#">
+                    {{ user.username }}
+                </a>
+            </li>
+            <li><a href="#">Alterar Senha</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="card" style="padding-left: 270px;">
+
+    <div>
+        {% block 'body' %}
+        {% endblock %}
+    </div>
+
+</div>
+</body>
+
+<script type="text/javascript">//<![CDATA[
+window.onload=function(){
+$(document).ready(function() {
+    $('select').material_select();
+});
+}//]]>
+
+
+</script>
+</html>

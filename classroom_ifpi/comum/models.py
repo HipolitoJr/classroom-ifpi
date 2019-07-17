@@ -58,7 +58,7 @@ class Turma(models.Model):
     alunos = models.ManyToManyField(Aluno, through='MatriculaDisciplinar')
 
     def __str__(self):
-        return self.especificacao_disciplina
+        return "%s - %s" % (self.especificacao_disciplina, self.curso.descricao)
 
 
 class MatriculaDisciplinar(models.Model):

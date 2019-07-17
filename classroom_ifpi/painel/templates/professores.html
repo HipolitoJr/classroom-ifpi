@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+<div style="padding-right: 20px;">
+    <div class="row">
+        <ul class="col s8 offset-s2 collection">
+            {% for professor in professores %}
+            <li class="collection-item avatar">
+                <i class="material-icons circle green">
+                    <i class="fas fa-user-tie"></i>
+                </i>
+                <b class="title">{{ professor.nome }}</b>
+                <p>{{ professor.matricula }}<br>
+                </p>
+                <a href="#!" class="secondary-content"><i class="material-icons">
+                    <i class="fas fa-star"></i>
+                </i></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

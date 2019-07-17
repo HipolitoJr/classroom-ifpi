@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+<div class="row" style="margin: 12px; padding-bottom: 10%">
+    <form class="col s6 offset-s3 center" method="post" action="{% url 'add_disciplina' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="descricao" name="descricao" type="text" class="validate">
+                    <label for="descricao">Nome da disciplina:</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Salvar</button>
+        <button type="reset" class="btn red">Cancelar</button>
+    </form>
+</div>
+
+{% endblock %}
