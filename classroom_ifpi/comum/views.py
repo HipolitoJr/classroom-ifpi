@@ -7,6 +7,10 @@ from .models import *
 from horarios import views as horario_views
 from frequencia import views as frequencia_views
 from django_filters import rest_framework as filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
+
 
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
@@ -155,3 +159,8 @@ class HorarioList(generics.ListCreateAPIView):
     filter_fields = '__all__'
     name = 'horario-list'
 
+class CustomObtainAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
+        token = Token.objects.get(key=response.data['token'])
+        return Response({'token': token.key, 'id': token.user_id, 'username': token.user.username})

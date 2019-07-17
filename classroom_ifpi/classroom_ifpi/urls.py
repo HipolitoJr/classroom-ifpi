@@ -24,7 +24,7 @@ from horarios import views as horario_views
 from frequencia import views as frequencia_views
 from painel import views as painel_views
 from qr_code import views
-
+from rest_framework.authtoken.views import obtain_auth_token
 
 # router = routers.DefaultRouter()
 # router.register(r'aluno', AlunoDetail, base_name="alunos")
@@ -43,6 +43,7 @@ urlpatterns = [
 
     #URLs API
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', obtain_auth_token),
     path('api/', comum_views.ApiRoot.as_view(), name=comum_views.ApiRoot.name),
     path('api/professores/<int:pk>', comum_views.ProfessorDetail.as_view(), name =comum_views.ProfessorDetail.name ),
     path('api/professores/', comum_views.ProfessorList.as_view(), name = comum_views.ProfessorList.name),
@@ -70,6 +71,7 @@ urlpatterns = [
     path('api/frequencias/', frequencia_views.FrequenciaList.as_view(), name = frequencia_views.FrequenciaList.name),
     path('api/registros/<int:pk>', frequencia_views.RegistroDetail.as_view(), name=frequencia_views.RegistroDetail.name),
     path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
+    path('api/logado/', comum_views.CustomObtainAuthToken.as_view()),
 
     path('', painel_views.index, name = 'index'),
     path('painel/', painel_views.painel, name = 'painel'),

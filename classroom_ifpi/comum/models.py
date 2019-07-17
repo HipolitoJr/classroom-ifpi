@@ -76,7 +76,7 @@ class MatriculaDisciplinar(models.Model):
     situacao = models.CharField(max_length=1, choices=SITUACAO_CHOICES, null=False, blank=False, default='C')
 
     def __str__(self):
-        return self.aluno.nome+  " - " + self.disciplina.especificacao_disciplina
+        return self.aluno.nome + " - " + self.disciplina.especificacao_disciplina
 
 
 class Horario(models.Model):
