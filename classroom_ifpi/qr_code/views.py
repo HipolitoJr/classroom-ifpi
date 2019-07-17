@@ -3,6 +3,8 @@ import datetime
 import os
 import platform
 import re
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Horario, MatriculaDisciplinar, Professor, Turma
 from frequencia.models import Registro, Frequencia
@@ -190,11 +192,26 @@ def registered(request):
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
 
 
-def exportar_frequencias(request):
-    return render(request, 'qr_code/qr_code_professor.html', )
+def permission_denied(request):
+    user = request.user
+    return render(request, 'qr_code/qr_code_denied.html', {'user': user})
 
 
-def export_to_csv(pf):
+def export(request):
+    professor = Professor()
+    user = request.user
+    prof = Professor.objects.all()
+    for p in prof:
+        if user == p.usuario:
+            professor = p
+        else:
+            return redirect('permission_denied')
+    return render(request, 'qr_code/qr_code_export.html', {'professor': professor})
+
+
+
+def export_to_csv(request):
+    pf = request.META.get("professor")
     professor = Professor.objects.filter(id=pf)
     turmas = Turma.objects.filter(ministrante=professor[0].id)
     re = []

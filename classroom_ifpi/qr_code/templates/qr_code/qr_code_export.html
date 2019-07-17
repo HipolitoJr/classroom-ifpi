@@ -1,0 +1,10 @@
+{% extends 'qr_code/base.html' %}
+{% load static %}
+{% block content %}
+{#    <h2 id="h2-2">Professor {{ user }}, para exportar suas frequẽncias clique </h2>#}
+    <form action="{% url 'export_to_csv' %}" method="POST" class="post-form">
+        {% csrf_token %}
+        <h2 id="h2-2">Professor {{ professor }}, para exportar suas frequẽncias clique </h2>
+        <button type="submit" class="save btn btn-primary">OK</button>
+    </form>
+{% endblock %}
