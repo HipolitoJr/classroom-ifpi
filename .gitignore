@@ -111,3 +111,4 @@ venv.bak/
 /classroom_ifpi/horarios/migrations
 /classroom_ifpi/netconf.txt
 /classroom_ifpi/qr_code/migrations/
+/classroom_ifpi/frequencias.csv

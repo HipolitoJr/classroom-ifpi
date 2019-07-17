@@ -4,7 +4,7 @@ import os
 import platform
 import re
 from django.shortcuts import render, render_to_response, redirect
-from comum.models import Horario, MatriculaDisciplinar
+from comum.models import Horario, MatriculaDisciplinar, Professor, Turma
 from frequencia.models import Registro, Frequencia
 from qr_code.models import IPAdress
 
@@ -188,3 +188,24 @@ def registered(request):
     else:
         return redirect('get_alunos')
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
+
+
+def export_to_csv(pf):
+    professor = Professor.objects.filter(id=pf)
+    turmas = Turma.objects.filter(ministrante=professor[0].id)
+    re = []
+    for t in turmas:
+        frequencias = t.frequencia.all()
+        for f in frequencias:
+            registros = f.registros.all()
+            for r in registros:
+                re.append(r)
+    arq = open("frequencias.csv", 'w')
+    for i in re:
+        arq.write(str(i.disciplina))
+        arq.write(',')
+        arq.write(str(i.aluno))
+        arq.write(',')
+        arq.write(str(i.matricula))
+        arq.write(";")
+    arq.close()
