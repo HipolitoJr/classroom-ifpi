@@ -2,8 +2,8 @@
 {% load staticfiles %}
 {% block 'body' %}
 
-<div class="container" style="heigth:100%">
-    <div class="col s12 m8 offset-m2">
+<div class="container" style="padding-bottom: 15%">
+    <div class="col s8 m8 offset-m2">
         <form method="post" action="{% url 'add_aluno' %}">
           {% csrf_token %}
               <div align="center" class="card-title">
@@ -12,27 +12,23 @@
 
               <div class="row">
                   <div class="input-field col s6">
-                    <i class="prefix fas fa-user"></i>
-                    <input name="first_name" type="text" class="validate">
+                    <input name="first_name" type="text" class="validate" required>
                     <label>Nome</label>
                   </div>
                   <div class="input-field col s6">
-                    <i class="prefix fas fa-user"></i>
-                    <input name="last_name" type="text" class="validate">
+                    <input name="last_name" type="text" class="validate" required>
                     <label>Sobrenome</label>
                   </div>
                   <div class="input-field col s6">
-                    <i class="prefix fas fa-id-card"></i>
-                    <input name="matricula_curso" type="text" class="validate">
+                    <input name="matricula_curso" type="text" class="validate" required>
                     <label>Matricula Curso</label>
                   </div>
                   <div class="input-field col s6">
-                    <i class="prefix fas fa-at"></i>
-                    <input name="email" type="email" class="validate">
+                    <input name="email" type="email" class="validate" required>
                     <label>Email</label>
                   </div>
                   <div class="input-field col s12">
-                    <select name="curso" class="validate">
+                    <select name="curso" class="validate" required>
                       {% for curso in cursos %}
                         <option value="{{ curso.id }}">{{ curso }}</option>
                       {% endfor %}

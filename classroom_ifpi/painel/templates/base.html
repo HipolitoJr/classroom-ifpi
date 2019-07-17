@@ -22,12 +22,6 @@
         <h5>Classroom IFPI</h5>
     </div>
     <li>
-        <a href="#!">
-            <i class="fas fa-fw fa-graduation-cap"></i>
-            Cursos
-        </a>
-    </li>
-    <li>
         <a href="{% url 'turmas' %}">
             <i class="fas fa-fw fa-chalkboard-teacher"></i>
             Turmas
@@ -40,7 +34,13 @@
         </a>
     </li>
     <li>
-        <a href="#!">
+        <a href="{% url 'cursos' %}">
+            <i class="fas fa-fw fa-graduation-cap"></i>
+            Cursos
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'professores' %}">
             <i class="fas fa-fw fa-user-tie"></i>
             Profesores
         </a>

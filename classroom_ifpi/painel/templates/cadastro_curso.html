@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block 'body' %}
+
+<div class="row" style="margin: 12px; padding-bottom: 10%">
+    <form class="col s8 offset-s2 center" method="post" action="{% url 'add_curso' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="descricao" name="descricao" type="text" class="validate">
+                    <label for="descricao">Nome do curso:</label>
+                </div>
+                <div class="input-field col s6">
+                    <select name="tipo" class="validate">
+                        <option value="TN">Técnico</option>
+                        <option value="TG">Tecnologia</option>
+                        <option value="BA">Bacharelado</option>
+                        <option value="LI">Licenciatura</option>
+                        <option value="ME">Mestrado</option>
+                    </select>
+                    <label>Tipo do curso</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Salvar</button>
+        <button type="reset" class="btn red">Cancelar</button>
+    </form>
+</div>
+
+{% endblock %}

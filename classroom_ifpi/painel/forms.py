@@ -25,3 +25,17 @@ class MatricularAlunoForm(forms.Form):
 
     aluno = forms.IntegerField(required=True)
     turma = forms.IntegerField(required=False)
+
+
+class CadastrarTurmaForm(forms.Form):
+
+    ministrante = forms.IntegerField(required=True)
+    disciplina = forms.IntegerField(required=False)
+    curso = forms.IntegerField(required=False)
+    carga_horaria = forms.IntegerField(required=False)
+
+
+class CadastrarCursoForm(forms.Form):
+
+    descricao = forms.CharField(required=True)
+    tipo = forms.CharField(required=True)

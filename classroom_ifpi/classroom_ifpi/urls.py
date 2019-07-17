@@ -72,7 +72,11 @@ urlpatterns = [
     path('api/registros/', frequencia_views.RegistroList.as_view(), name = frequencia_views.RegistroList.name),
 
     path('painel/', painel_views.painel, name = 'painel'),
+    path('painel/professores/', painel_views.list_professores, name = 'professores'),
+    path('painel/cursos/', painel_views.list_cursos, name = 'cursos'),
+    path('painel/cursos/novo/', painel_views.CadastrarCursoView.as_view(), name = 'add_curso'),
     path('painel/turmas/', painel_views.list_turmas, name = 'turmas'),
+    path('painel/turmas/novo/', painel_views.CadastrarTurmaView.as_view(), name = 'add_turma'),
     path('painel/turmas/<int:turma_id>/', painel_views.turma_detalhe, name = 'turma_detalhe'),
     path('painel/turmas/<int:turma_id>/matricula-aluno/', painel_views.MatricularAlunoView.as_view(), name = 'matricula_aluno'),
     path('cadastro/professor/', painel_views.CadastrarProfessorView.as_view(), name = 'add_professor'),

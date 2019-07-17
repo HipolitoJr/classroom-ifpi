@@ -20,7 +20,7 @@
                         </div>
                         <div class="card-stacked ">
                             <div class="card-content">
-                                <p class="flow-text">{{ turma.especificacao_disciplina }} - {{ turma.carga_horaria}}h</p>
+                                <p class="flow-text">{{ turma }} - {{ turma.carga_horaria}}h</p>
                                 <p>{{ turma.curso }} - {{ turma.ministrante }}</p>
                             </div>
                             <div class="card-action">
@@ -35,7 +35,7 @@
     </div>
 
   <div class="fixed-action-btn">
-      <a class="btn-floating btn-large tean">
+      <a href="{% url 'add_turma' %}" class="btn-floating btn-large tean">
         <i class="fas fa-plus"></i>
       </a>
   </div>
