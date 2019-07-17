@@ -190,22 +190,28 @@ def registered(request):
     return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
 
 
+def exportar_frequencias(request):
+    return render(request, 'qr_code/qr_code_professor.html', )
+
+
 def export_to_csv(pf):
     professor = Professor.objects.filter(id=pf)
     turmas = Turma.objects.filter(ministrante=professor[0].id)
     re = []
+    re.append(str(professor[0].nome))
+    re.append("\n")
     for t in turmas:
         frequencias = t.frequencia.all()
         for f in frequencias:
+            re.append(str(t.disciplina) + " - " + str(f.data))
+            re.append("\n")
             registros = f.registros.all()
             for r in registros:
-                re.append(r)
+                re.append(str(r.aluno))
+                re.append(",")
+                re.append(str(r.matricula))
+                re.append(';')
     arq = open("frequencias.csv", 'w')
     for i in re:
-        arq.write(str(i.disciplina))
-        arq.write(',')
-        arq.write(str(i.aluno))
-        arq.write(',')
-        arq.write(str(i.matricula))
-        arq.write(";")
+        arq.write(i)
     arq.close()
