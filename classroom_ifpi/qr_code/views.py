@@ -211,10 +211,10 @@ def export(request):
 
 
 def download_file(request):
-    fl_path = '/'
+    fl_path = 'frequencias.csv'
     filename = 'frequencias.csv'
     fl = open(fl_path, 'r')
-    mime_type, _ = mimetypes.guess_type(fl_path)
+    mime_type = mimetypes.guess_type(filename)
     response = HttpResponse(fl, content_type=mime_type)
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
