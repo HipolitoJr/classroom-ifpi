@@ -12,11 +12,16 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic.base import View
 
-from comum.models import Turma, Professor, Aluno, MatriculaDisciplinar, Curso, Disciplina
+from comum.models import Turma, Professor, Aluno, MatriculaDisciplinar, Curso, Disciplina, Horario
 from painel.forms import CadastrarProfessorForm, CadastrarAlunoForm, MatricularAlunoForm, CadastrarTurmaForm, \
-    CadastrarCursoForm
+    CadastrarCursoForm, CadastrarDisciplinaForm, CadastrarHorarioForm
 
 
+def index(request):
+    return render(request, 'base_registro.html')
+
+
+@login_required()
 def painel(request):
     return render(request, 'base.html')
 
@@ -34,26 +39,30 @@ class CadastrarProfessorView(View):
             senha = make_password("%s" % dados['password'])
             confirma_senha = make_password("%s" % dados['confirma_password'])
 
-            if senha != confirma_senha:
-                return messages.error(request, 'Senhas diferentes!')
+            # if senha != confirma_senha:
+            #     messages.error(request, 'Senhas diferentes!')
+            #     return (request, 'cadastro_professor.html', {'form': form})
 
             usuario = User(username=dados['username'],
                            first_name=dados['first_name'],
                            last_name=dados['last_name'],
                            email=dados['email'],
-                           password=senha)
+                           password=senha,
+                           last_login=timezone.now(),
+                           is_superuser=False,
+                           is_staff=True,
+                           is_active=True,
+                           date_joined=timezone.now())
             usuario.save()
 
-            professor = Professor(nome="%s %s" % (dados['first_name'], dados['last_name']),
+            professor = Professor(nome="%s %s" %(dados['first_name'], dados['last_name']),
                                   matricula=dados['matricula'],
                                   cpf='123.456.789-09',
                                   usuario_id=usuario.id)
 
             professor.save()
-            # messages.success(request, 'Seu cadastro foi realizado com sucesso.')
             return redirect('/login/')
 
-        messages.error(request, 'Algo deu errado.')
         return render(request, 'cadastro_professor.html', {'form': form})
 
 
@@ -149,6 +158,52 @@ class CadastrarCursoView(View):
         return redirect('painel')
 
 
+class CadastrarHorarioView(View):
+
+    def get(self, request):
+        turmas = get_turmas(request)
+        return render(request,
+                      'cadastro_horario.html',
+                      {'titulo': 'Cadastrar Horário',
+                       'turmas': turmas})
+
+    def post(self, request):
+        form = CadastrarHorarioForm(request.POST)
+        if (form.is_valid()):
+            dados = form.data
+
+            horario = Horario(dia_semana=dados['dia_semana'],
+                              hora_inicio=dados['hora_inicio'],
+                              hora_fim=dados['hora_fim'],
+                              turma_id=dados['turma'])
+            horario.save()
+
+            return redirect('horarios')
+
+        return redirect('painel')
+
+
+class CadastrarDisciplinaView(View):
+
+    def get(self, request):
+        return render(request,
+                      'cadastro_disciplina.html',
+                      {'titulo': 'Cadastrar Disciplina'})
+
+    def post(self, request):
+        form = CadastrarDisciplinaForm(request.POST)
+        if (form.is_valid()):
+            dados = form.data
+
+            disciplina = Disciplina(descricao=dados['descricao'])
+
+            disciplina.save()
+
+            return redirect('disciplinas')
+
+        return redirect('painel')
+
+
 class CadastrarTurmaView(View):
 
     def get(self, request):
@@ -218,6 +273,22 @@ def list_turmas(request):
 
 
 @login_required
+def list_horarios(request):
+    turmas_usuario = get_turmas(request)
+    horarios = []
+
+    for turma in turmas_usuario:
+        horarios_turma = Horario.objects.filter(turma = turma)
+        for horario in horarios_turma:
+            horarios.append(horario)
+
+    return render(request,
+                  'horarios.html',
+                  {'titulo': 'Seus Horarios',
+                   'horarios': horarios})
+
+
+@login_required
 def turma_detalhe(request, turma_id):
     turma = Turma.objects.get(id=turma_id)
     alunos = Aluno.objects.all()
@@ -236,10 +307,27 @@ def list_alunos(request):
                   {'titulo': 'Seus Alunos',
                    'alunos': alunos})
 
+@login_required
+def list_disciplinas(request):
+    disciplinas = Disciplina.objects.all()
+    return render(request, 'disciplinas.html',
+                  {'titulo': 'Disciplinas cadastradas',
+                   'disciplinas': disciplinas})
+
 
 def get_turmas(request):
     turmas = Turma.objects.filter(ministrante=request.user.professor)
     return turmas
+
+
+def get_horarios_ministrante(request):
+    turmas = get_turmas(request)
+    horarios = []
+    for turma in turmas:
+        horario = turma
+        horarios.append(horario)
+
+    return horarios
 
 
 def login(request):

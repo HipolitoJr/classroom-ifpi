@@ -4,28 +4,29 @@
 <div style="padding-right: 20px;">
 
     <div class="row" style="margin-top: 14px;">
-        <div class="col s3 center">
-            <b class="title">Nome turma</b>
-            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.especificacao_disciplina }}<br>
-        </div>
-        <div class="col s3 center">
-            <b class="title">Disciplina</b>
-            <br>
+        <div class="col s4 center">
+            <b class="title">Turma</b>
             <p style="font-size: 16pt; margin-top: 8px;">{{ turma.disciplina }}<br>
-            </p>
         </div>
-        <div class="col s3 center">
-            <b class="title">Carga Horária</b>
-            <br>
-            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.carga_horaria }}h<br>
-            </p>
-        </div>
-        <div class="col s3 center">
+        <div class="col s4 center">
             <b class="title">Curso</b>
             <br>
             <p style="font-size: 16pt; margin-top: 8px;">{{ turma.curso }}<br>
             </p>
         </div>
+        <div class="col s2 center">
+            <b class="title">Carga Horária</b>
+            <br>
+            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.carga_horaria }}h<br>
+            </p>
+        </div>
+        <div class="col s2 center">
+            <b class="title">Carga Horária Ministrada</b>
+            <br>
+            <p style="font-size: 16pt; margin-top: 8px;">{{ turma.carga_horaria_ministrada }}hs<br>
+            </p>
+        </div>
+
     </div>
 
     <hr>
@@ -54,7 +55,7 @@
     </table>
     {% else %}
     <div class="card center" style="padding: 20px">
-        <b>Nesta turma ainda nao possui alunos!</b>
+        <b>Nemnhum aluno matriculado nesta disciplina!</b>
     </div>
     {% endif %}
 

@@ -35,7 +35,20 @@ class CadastrarTurmaForm(forms.Form):
     carga_horaria = forms.IntegerField(required=False)
 
 
+class CadastrarHorarioForm(forms.Form):
+
+    dia_semana = forms.CharField(required=True)
+    hora_inicio = forms.TimeField(required=False)
+    hora_fim = forms.TimeField(required=False)
+    turma = forms.IntegerField(required=False)
+
+
 class CadastrarCursoForm(forms.Form):
 
     descricao = forms.CharField(required=True)
     tipo = forms.CharField(required=True)
+
+
+class CadastrarDisciplinaForm(forms.Form):
+
+    descricao = forms.CharField(required=True)
