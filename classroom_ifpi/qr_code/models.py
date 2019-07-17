@@ -2,18 +2,15 @@ from django.db import models
 
 # Create your models here.
 
-
-class Link(models.Model):
-    url = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.url
+from comum.models import MatriculaDisciplinar
+from frequencia.models import Frequencia
 
 
-class Aluno(models.Model):
-    class Meta:
-        db_table = 'Aluno'
-    nome = models.CharField(max_length=100)
+class IPAdress(models.Model):
+    ip = models.GenericIPAddressField()
+    frequencia = models.ForeignKey(Frequencia, related_name='ip_adress', on_delete=models.CASCADE)
+    matricula_disciplinar = models.ForeignKey(MatriculaDisciplinar, related_name='iṕ_adress',
+                                              on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nome
+        return self.ip

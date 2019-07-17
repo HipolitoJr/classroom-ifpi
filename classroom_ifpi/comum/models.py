@@ -56,6 +56,7 @@ class Turma(models.Model):
     carga_horaria_ministrada = models.IntegerField(default=0)
     curso = models.ForeignKey(Curso, null=False, blank=False, on_delete=models.CASCADE, related_name='turma')
     alunos = models.ManyToManyField(Aluno, through='MatriculaDisciplinar')
+
     def __str__(self):
         return self.especificacao_disciplina
 
@@ -75,7 +76,7 @@ class MatriculaDisciplinar(models.Model):
     situacao = models.CharField(max_length=1, choices=SITUACAO_CHOICES, null=False, blank=False, default='C')
 
     def __str__(self):
-        return self.aluno.nome+  " - " + self.disciplina.especificacao_disciplina
+        return self.aluno.nome + " - " + self.disciplina.especificacao_disciplina
 
 
 class Horario(models.Model):
