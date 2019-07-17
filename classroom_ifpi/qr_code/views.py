@@ -183,20 +183,27 @@ def register(request):
         return redirect('no_has_reg')
 
 
+def browser_crash(request):
+    return render(request, 'qr_code/qr_code_browser_crash.html')
+
+
 def registered(request):
-    if 'aluno' in request.COOKIES:
-        aluno = request.COOKIES['aluno']
-        mat = request.COOKIES['matricula']
-        matricula = MatriculaDisciplinar.objects.get(id=mat)
-        if ip_repetido(request, matricula) is True or aluno_registered(matricula) is True:
-            return redirect('ip_blocked')
+    try:
+        if 'aluno' in request.COOKIES:
+            aluno = request.COOKIES['aluno']
+            mat = request.COOKIES['matricula']
+            matricula = MatriculaDisciplinar.objects.get(id=mat)
+            if ip_repetido(request, matricula) is True or aluno_registered(matricula) is True:
+                return redirect('ip_blocked')
+            else:
+                reg = registrar_presenca(mat)
+                if reg is False:
+                    return redirect('register_expired')
         else:
-            reg = registrar_presenca(mat)
-            if reg is False:
-                return redirect('register_expired')
-    else:
-        return redirect('get_alunos')
-    return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
+            return redirect('get_alunos')
+        return render(request, 'qr_code/qr_code_registered.html', {'aluno': aluno})
+    except KeyError:
+        return redirect('browser_crash')
 
 
 def permission_denied(request):

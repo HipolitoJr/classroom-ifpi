@@ -1,0 +1,7 @@
+{% extends 'qr_code/base.html' %}
+{% load static %}
+{% block content %}
+    <h2 id="h2-2">Há algo de errado com os cookies no seu navegador.</h2>
+    <p>Para resolver, redefina as configurações do site.</p>
+    <img id="imgConf" src="{% static 'img/cookie.png' %}" alt="Cookie apagado.">
+{% endblock %}
