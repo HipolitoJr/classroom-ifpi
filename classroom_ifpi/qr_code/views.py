@@ -1,10 +1,11 @@
 # Create your views here.
 import datetime
+import mimetypes
 import os
 import platform
 import re
 
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, render_to_response, redirect
 from comum.models import Horario, MatriculaDisciplinar, Professor, Turma
 from frequencia.models import Registro, Frequencia
@@ -209,10 +210,19 @@ def export(request):
     return render(request, 'qr_code/qr_code_export.html', {'professor': professor})
 
 
+def download_file(request):
+    fl_path = '/'
+    filename = 'frequencias.csv'
+    fl = open(fl_path, 'r')
+    mime_type, _ = mimetypes.guess_type(fl_path)
+    response = HttpResponse(fl, content_type=mime_type)
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    return response
+
 
 def export_to_csv(request):
-    pf = request.META.get("professor")
-    professor = Professor.objects.filter(id=pf)
+    pf = request.user.id
+    professor = Professor.objects.filter(usuario=pf)
     turmas = Turma.objects.filter(ministrante=professor[0].id)
     re = []
     re.append(str(professor[0].nome))
@@ -232,3 +242,4 @@ def export_to_csv(request):
     for i in re:
         arq.write(i)
     arq.close()
+    return redirect('download_file')

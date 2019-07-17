@@ -4,6 +4,6 @@
     <form action="{% url 'export_to_csv' %}" method="POST" class="post-form">
         {% csrf_token %}
         <h2 id="h2-2">Professor {{ professor }}, para exportar suas frequências clique no botão abaixo.</h2>
-        <button type="submit" class="save btn btn-primary">OK</button>
+        <a href="{{ some_file.url }}">Download</a>
     </form>
 {% endblock %}

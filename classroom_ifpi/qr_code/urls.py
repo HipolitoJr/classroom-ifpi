@@ -12,4 +12,5 @@ urlpatterns = [
     path('export', views.export, name='export'),
     path('export_to_csv', views.export_to_csv, name='export_to_csv'),
     path('permission_denied', views.permission_denied, name='permission_denied'),
+    path('download_file', views.download_file, name='download_file'),
 ]
