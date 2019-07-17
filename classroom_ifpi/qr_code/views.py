@@ -86,19 +86,19 @@ def home(request):
 
 
 def get_freq():
-    try:
-        freq = Frequencia.objects.filter(data=datetime.date.today(),
-                                         hora_inicio__lte=datetime.datetime.now().time(),
-                                         hora_fim__gte=datetime.datetime.now().time())
-        return freq[0]
-    except IndexError:
-        return redirect('no_has_reg')
+    freq = Frequencia.objects.filter(data=datetime.date.today(),
+                                     hora_inicio__lte=datetime.datetime.now().time(),
+                                     hora_fim__gte=datetime.datetime.now().time())
+    return freq[0]
 
 
 def get_alunos(request):
-    freq = get_freq()
-    matriculas = freq.disciplina.matricula_disciplinar.all()
-    return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
+    try:
+        freq = get_freq()
+        matriculas = freq.disciplina.matricula_disciplinar.all()
+        return render(request, 'qr_code/qr_code_register.html', {'matriculas': matriculas})
+    except IndexError:
+        return redirect('no_has_reg')
 
 
 def ip_blocked(request):
@@ -107,12 +107,15 @@ def ip_blocked(request):
 
 def aluno_registered(matricula):
     reg = False
-    freq = get_freq()
-    registros = Registro.objects.filter(frequencia=freq.id)
-    for r in registros:
-        if r.aluno == matricula:
-            return True
-    return reg
+    try:
+        freq = get_freq()
+        registros = Registro.objects.filter(frequencia=freq.id)
+        for r in registros:
+            if r.aluno == matricula:
+                return True
+        return reg
+    except IndexError:
+        redirect('no_has_reg')
 
 
 def ip_repetido(request, matricula):
@@ -160,21 +163,24 @@ def register_expired(request):
 
 
 def register(request):
-    mat = ''
-    if request.method == "POST":
-        mat = request.POST.get("id_matricula")
-    matricula = MatriculaDisciplinar.objects.get(id=mat)
-    if ip_repetido(request, matricula) is True or aluno_registered(matricula) is True:
-        return redirect('ip_blocked')
-    else:
-        reg = registrar_presenca(mat)
-        if reg is False:
-            return redirect('register_expired')
-    aluno = matricula.aluno
-    response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
-    response.set_cookie('aluno', aluno)
-    response.set_cookie('matricula', mat)
-    return response
+    try:
+        mat = ''
+        if request.method == "POST":
+            mat = request.POST.get("id_matricula")
+        matricula = MatriculaDisciplinar.objects.get(id=mat)
+        if ip_repetido(request, matricula) is True or aluno_registered(matricula) is True:
+            return redirect('ip_blocked')
+        else:
+            reg = registrar_presenca(mat)
+            if reg is False:
+                return redirect('register_expired')
+        aluno = matricula.aluno
+        response = render_to_response('qr_code/qr_code_registered.html', {'aluno': aluno})
+        response.set_cookie('aluno', aluno)
+        response.set_cookie('matricula', mat)
+        return response
+    except ValueError:
+        return redirect('no_has_reg')
 
 
 def registered(request):

@@ -3,12 +3,12 @@ html {
     background-color: #fbffca;
 }
 
- header {
+header {
     width: 100%;
     background-color: black;
 }
 
- h1 {
+h1 {
     margin: 0;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -17,55 +17,56 @@ html {
 
  }
 
- h2 {
+h2 {
     margin: 0 auto;
     padding: 20px 40px 10px;
     text-align: left;
 }
 
- #h2-2 {
+#h2-2 {
     margin: 0 auto;
     padding: 20px 40px 10px;
     text-align: center;
 }
 
- #inst{
+#inst{
     width: 100%;
     padding: 20px 20px 0 20px;
     display: inline-block;
 }
 
- p{
+p{
     color: #000000;
     font-size: x-large;
     text-align: center;
     margin: 0 auto;
 }
 
- body {
+body {
     width: 70%;
     margin: 0 auto;
     background-color: #fff8fd;
 }
 
- #cont{
+#cont{
     padding: 0 20px 20px 20px;
 }
 
- img {
+img {
     display: block;
     margin: 0 auto;
+
 }
 
- form {
+form {
     padding: 10px 40px 20px;
 }
 
- label {
+label {
     padding-left: 5px;
 }
 
- #imgConf {
+#imgConf {
     width: 20%;
     padding-top: 20px;
     padding-bottom: 40px;
