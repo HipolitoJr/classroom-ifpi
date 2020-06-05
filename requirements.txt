@@ -1,5 +1,5 @@
 colorama==0.4.1
-Django==2.0
+Django==2.2.13
 django-filter==2.1.0
 django-filters==0.2.1
 django-qr-creator==0.1.5
